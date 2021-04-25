@@ -18,16 +18,15 @@ class Ticket{
     //gets ticket price depending on seat position; 
     //the lower the seat number position, 
     //the higher the quality of the seat, and thus higher ticket price
-    public int getPrice() {
-        return (seatNum<11 ? 20 : seatNum<35 ? 15 : 10);
+    public int getSeatPrice() {
+        return (seatNum<=10 ? 20 : seatNum<=35 ? 15 : 10);
     }
+    
 
     @Override
     public String toString() {
         return "Ticket " + "id: " + id + ", seatNum: " + seatNum + "\n";
     }
-    
-    
     
     public int getId() {
         return id;

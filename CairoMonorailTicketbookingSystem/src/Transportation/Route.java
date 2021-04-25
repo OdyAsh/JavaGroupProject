@@ -7,18 +7,20 @@ package Transportation;
 public class Route {
     private String origin;
     private String destination;
+    private int distance;
     private int routePrice;
 
+    public Route(String origin, String destination, int distance, int routePrice) {
+        this.origin = origin;
+        this.destination = destination;
+        this.distance = distance;
+        this.routePrice = routePrice;
+    }
     public Route(String origin, String destination, int routePrice) {
         this.origin = origin;
         this.destination = destination;
         this.routePrice = routePrice;
-    }
-
-    public Route(String origin, String destination) {
-        this.origin = origin;
-        this.destination = destination;
-        this.routePrice = 3;
+        this.distance = 100;
     }
 
     @Override
@@ -43,6 +45,14 @@ public class Route {
         this.destination = destination;
     }
 
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+    
     public int getRoutePrice() {
         return routePrice;
     }
