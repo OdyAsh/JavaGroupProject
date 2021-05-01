@@ -1,10 +1,10 @@
 /*
  *  Group 9
- *  Author: 
+ *  Author: Abdo - Ashraf
  */
 package Transportation;
 
-class Ticket{
+public class Ticket{
     private static int idCounter = 400;
     private int id;
     private int seatNum;
@@ -43,5 +43,4 @@ class Ticket{
     public void setSeatNum(int seatNum) {
         this.seatNum = seatNum;
     }
-     
 }

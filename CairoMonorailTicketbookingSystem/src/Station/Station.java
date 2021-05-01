@@ -1,6 +1,6 @@
 /*
  *  Group 9
- *  Author: 
+ *  Author: Abdo - Ashraf Adel
  */
 package Station;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ public class Station {
     private static ArrayList<Admin> adminsList = new ArrayList<Admin>();
 
     public Station() {
+        
     }
 
     public static ArrayList<Passenger> getPassengersList() {

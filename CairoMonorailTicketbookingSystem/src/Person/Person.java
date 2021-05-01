@@ -1,6 +1,13 @@
-//Group 9
+/*
+ *  Group 9
+ *  Author: Ashraf
+ */
 package Person;
-
+//the idCounter generates the id of each object created, in order to avoid id duplicates if the id was manually entered per object creation
+//this logic is used in the following classes:
+//Person: 100
+//Train: 300
+//Ticket: 400
 public abstract class Person {
     private static int idCounter = 100;
     private int id;
@@ -8,10 +15,6 @@ public abstract class Person {
     private String username;
     private String password;
     
-    //this method should match "un", "pass" with usernames and passwords of admins/passengers 
-    //in their ArrayLists that are found in Station class and return the index of the matching
-    //passenger object. if there are no matching objects return -1
-    //public int login(String un, String pass) {return -1;}
     
     //in admin:
     //display options of adding, removing, or updating train from the station class. 

@@ -1,10 +1,11 @@
 /*
  *  Group 9
- *  Author: 
+ *  Author: Ashraf
  */
 package Transportation;
 import java.util.ArrayList;
 import Person.Passenger;
+import java.util.Arrays;
 public class Train {
     private static int idCounter = 300;
     private int id;
@@ -12,27 +13,52 @@ public class Train {
     private int timeSlot;
     private ArrayList <String> stopStations;
     private ArrayList <Passenger> bookedPassengers;
-    private final int SEATNUM = 50;
-    private boolean[] takenSeats = new boolean[SEATNUM];
+    private final int SEATNUMLIMIT;
+    private boolean[] takenSeats;
 
+    @Override
+    public String toString() {
+        return "Train's info:\n" + "id: " + id + "\nroute: " + route + "\ntime slot: " 
+                + timeSlot + "\nstopping stations: " + stopStations 
+                + "\nbooked passengers: " + bookedPassengers + "\ntrain's seats: " 
+                + SEATNUMLIMIT + "\ntaken seats (1 for taken): " + Arrays.toString(takenSeats) + "\n";
+    }
+    
     public Train(Route route, int timeSlot)
     {
         Train.idCounter += 1;
         this.id = idCounter;
         this.route = route;
-        
         this.timeSlot = timeSlot;
+        this.stopStations = new ArrayList <>();
+        this.bookedPassengers = new ArrayList <>();
+        this.SEATNUMLIMIT = 50;
+        this.takenSeats = new boolean[SEATNUMLIMIT];
     }
 
-    public Train(Route route, int timeSlot, ArrayList<String> stopStations, ArrayList<Passenger> bookedPassengers) {
+    public Train(Route route, int timeSlot, ArrayList<String> stopStations) {
         Train.idCounter += 1;
         this.id = idCounter;
         this.route = route;
         this.timeSlot = timeSlot;
         this.stopStations = stopStations;
-        this.bookedPassengers = bookedPassengers;
+        this.bookedPassengers = new ArrayList <>();
+        this.SEATNUMLIMIT = 50;
+        this.takenSeats = new boolean[SEATNUMLIMIT];
     }
 
+    public Train(int id, Route route, int timeSlot, ArrayList<String> stopStations, int SEATNUMLIMIT) {
+        Train.idCounter += 1;
+        this.id = idCounter;
+        this.route = route;
+        this.timeSlot = timeSlot;
+        this.stopStations = stopStations;
+        this.bookedPassengers = new ArrayList <>();
+        this.SEATNUMLIMIT = SEATNUMLIMIT;
+        this.takenSeats = new boolean[SEATNUMLIMIT];
+    }
+    
+    
     public int getId() {
         return id;
     }
@@ -81,5 +107,7 @@ public class Train {
         this.takenSeats = takenSeats;
     }
     
-    
+    public static int getIdCounter() {
+        return idCounter;
+    }
 }
