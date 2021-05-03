@@ -4,20 +4,24 @@ package Person;
 
 import java.util.ArrayList;
 import Transportation.*;
+import Station.Station;
 import java.util.Scanner;
 public class Admin extends Person {
-    ArrayList<Train> arr;
 
     /**
      *
-     * @param username
+     * @param name
+     * @param userName
      * @param password
-     * @param arr2
      */
-    public Admin(String name,String userName, String password, ArrayList<Train> arr2) {
+    public Admin(String name,String userName, String password) {
         super(name, userName, password);
-        this.arr = arr2;
     }
+
+    public Admin(String username, String password) {
+        super(username, password);
+    }
+
     public void changeName(String name){
         super.setName(name);
     }
@@ -29,26 +33,26 @@ public class Admin extends Person {
     }
     
     public String deleteTrain(int id){  
-        for (int i=0; i<arr.size(); i++)
+        for (int i=0; i<Station.getTrainsList().size(); i++)
         {
-            Train temp = arr.get(i);            
+            Train temp = Station.getTrainsList().get(i);            
             if (temp.getId() == id)
-                arr.remove(id);
+                Station.getTrainsList().remove(id);
                  return  "Train with id " + id + " Got deleted succesfully";
         }
         return "Train with id " + id + " Isn't found in the Station";
     }
     public void addTrain(Route route,int timeslot){
         Train trainTemp = new Train(route, timeslot);
-        arr.add(trainTemp);
+        Station.getTrainsList().add(trainTemp);
     }
     public String updateTrainRoute(Route route, int id){
         
-        for (int i=0; i<arr.size(); i++)
+        for (int i=0; i<Station.getTrainsList().size(); i++)
         {
-            Train temp = arr.get(i);            
+            Train temp = Station.getTrainsList().get(i);            
             if (temp.getId() == id){
-                arr.get(id).setRoute(route);
+                Station.getTrainsList().get(id).setRoute(route);
                 return  "Train with id " + id + "'s route got updated succesfully";
             }
                  
@@ -56,11 +60,11 @@ public class Admin extends Person {
         return "Train with id " + id + " Isn't found in the Station";
     }
     public String updateTrainTimeSlot(int timeSlotNew, int id){
-        for (int i=0; i<arr.size(); i++)
+        for (int i=0; i<Station.getTrainsList().size(); i++)
         {
-            Train temp = arr.get(i);            
+            Train temp = Station.getTrainsList().get(i);            
             if (temp.getId() == id){
-                arr.get(id).setTimeSlot(timeSlotNew);
+                Station.getTrainsList().get(id).setTimeSlot(timeSlotNew);
                 return  "Train with id " + id + "'s Timeslot got updated succesfully";
             }
                  
@@ -70,41 +74,55 @@ public class Admin extends Person {
     
     public void getTotalPassengersInSpecificRoute(String origin,String destination){
         int tempTotal = 0, tempHigh = 0,tempMid = 0 , tempLow = 0;
-        for(int i = 0; i < arr.size(); i++){
-            if(arr.get(i).getRoute().getOrigin().equals(origin) && arr.get(i).getRoute().getDestination().equals(destination)){
-                tempTotal += arr.get(i).getHighClassTakenSeats() + arr.get(i).getLowClassTakenSeats() + arr.get(i).getMidClassTakenSeats();
-                tempHigh = arr.get(i).getHighClassTakenSeats();
-                tempMid = arr.get(i).getMidClassTakenSeats();
-                tempLow = arr.get(i).getLowClassTakenSeats();
-                System.out.println("Train: " + arr.get(i).getId() + "\n Number of High Class Passengers: " + tempHigh + "\n Number Mid Class Passengers: " + tempMid + "\n Number Low Class Passengers: " + tempLow + "\n with total of: " + tempTotal + " Passengers \n");
-            } else if(!arr.get(i).getRoute().getOrigin().equals(origin) && !arr.get(i).getRoute().getDestination().equals(destination)){
-               continue;
-            }
-            else{
-                System.out.println("This route " + origin + " -> " + destination + " has no trains");
-                break;
-                    }
+        boolean found = false;
+        for(int i = 0; i < Station.getTrainsList().size(); i++){
+            if(Station.getTrainsList().get(i).getRoute().getOrigin().equals(origin) && Station.getTrainsList().get(i).getRoute().getDestination().equals(destination)){
+                found = true;
+                tempTotal += Station.getTrainsList().get(i).getHighClassTakenSeats() + Station.getTrainsList().get(i).getLowClassTakenSeats() + Station.getTrainsList().get(i).getMidClassTakenSeats();
+                tempHigh = Station.getTrainsList().get(i).getHighClassTakenSeats();
+                tempMid = Station.getTrainsList().get(i).getMidClassTakenSeats();
+                tempLow = Station.getTrainsList().get(i).getLowClassTakenSeats();
+                System.out.println("Train: " + Station.getTrainsList().get(i).getId() + "\n Number of High Class Passengers: " + tempHigh + 
+                        "\n Number Mid Class Passengers: " + tempMid + "\n Number Low Class Passengers: " + tempLow + 
+                        "\n with total of: " + tempTotal + " Passengers \n");
+            }           
         }
-        
-        
+        if (!found) 
+            System.out.println("No trains with origin: " + origin + " and destination: " + destination + " were found.\n");
+         
     }
     public void getTotalFareInSpecificRoute(String origin,String destination){
-        int tempTotal = 0, tempHigh = 0,tempMid = 0 , tempLow = 0;
-        for(int i = 0; i < arr.size(); i++){
-            if(arr.get(i).getRoute().getOrigin() == origin && arr.get(i).getRoute().getDestination() == destination){
-                tempTotal += arr.get(i).getHighClassTakenSeats() + arr.get(i).getLowClassTakenSeats() + arr.get(i).getMidClassTakenSeats();
-                tempHigh = arr.get(i).getHighClassTakenSeats();
-                tempMid = arr.get(i).getMidClassTakenSeats();
-                tempLow = arr.get(i).getLowClassTakenSeats();
-                System.out.println("Train: " + arr.get(i).getId() + "\n total of High Class fare: $" + tempHigh + "\n Total of Mid Class fare: $" + tempMid + "\n Total of Low Class fare: $" + tempLow + "\n with total of: $" + tempTotal + "\n");
-            } else if(!arr.get(i).getRoute().getOrigin().equals(origin) && !arr.get(i).getRoute().getDestination().equals(destination)){
-               continue;
-            }
-            else{
-                System.out.println("This route " + origin + " -> " + destination + " has no trains");
-                break;
-                    }
+        int totalTickets = 0, totalFare = 0, 
+            tempHigh = 0,tempMid = 0 , tempLow = 0, 
+            ticketHigh = 30, ticketMid = 20, ticketLow = 10;
+        boolean found = false;
+        for(int i = 0; i < Station.getTrainsList().size(); i++){
+            if(Station.getTrainsList().get(i).getRoute().getOrigin().equals(origin) && Station.getTrainsList().get(i).getRoute().getDestination().equals(destination)){
+                found = true;
+                tempHigh = Station.getTrainsList().get(i).getHighClassTakenSeats();
+                tempMid = Station.getTrainsList().get(i).getMidClassTakenSeats();
+                tempLow = Station.getTrainsList().get(i).getLowClassTakenSeats();
+                int highSeatsPrice = tempHigh * ticketHigh;
+                int midSeatsPrice = tempMid * ticketMid;
+                int lowSeatsPrice = tempLow * ticketLow; 
+                int tempTotalPrice = highSeatsPrice + midSeatsPrice + lowSeatsPrice;
+                totalTickets += tempHigh + tempMid + tempLow;
+                totalFare += tempTotalPrice;
+                System.out.println("Train: " + Station.getTrainsList().get(i).getId() 
+                        + "\n total High Class tickets: " + tempHigh + "\n fare: $" + highSeatsPrice 
+                        + "\n total Mid Class tickets: " + tempMid + "\n fare: $" + midSeatsPrice 
+                        + "\n total Low class tickets: " + tempLow + "\n fare: $" + lowSeatsPrice
+                        + "\n with total fare: $" + tempTotalPrice);
+            }         
         }
+        if (!found) {
+            System.out.println("No trains with origin: " + origin + " and destination: " + destination + " were found.\n");
+        }
+        else {
+            System.out.println("-----------------------\n total tickets of all trains: " + totalTickets
+                                + "\n with total fare: $" + totalFare + "\n");
+        }
+        
         
 //        int tempHigh = 0,tempMid = 0 , tempLow = 0;
 //        for(int i = 0; i < arr.size(); i++){
@@ -118,17 +136,9 @@ public class Admin extends Person {
 //        return (tempHigh * 20) + (tempMid * 15) + (tempLow * 10);
     }
 
-    public String getUsername() {
-        return super.getUsername();
-    }
-
-    public String getPassword() {
-        return super.getPassword();
-    }
-
     @Override
     public String toString() {
-        return "Admin{" + "username=" + super.getUsername() + ", password=" + super.getPassword() + ", arr=" + arr + '}';
+        return "Admin info: " + "id=" + super.getId() + ", name=" + super.getName() + ", username=" + super.getUsername() + ", password=" + super.getPassword() + "\n";
     }
     
     @Override
@@ -182,12 +192,13 @@ public class Admin extends Person {
                 
                 // Add/ Remove/ Update Trains
                 System.out.println("Choose which action you want to perform\n1- Add new train\n2- Remove train\n3- Update train route\n4- Update train timeslot\n5- Come back to the main list ");
-                int tempChoice = input.nextInt();
+                int tempChoice = input.nextInt();   
                 switch(tempChoice){
                     case 1:
                 System.out.println("Submit New Train Data: ");
                 System.out.println("Time slot: ");
                 int tempTimeSlot = input.nextInt();
+                input.nextLine();
                 // String origin, String destination, int distance, int routePrice
                 String tempOrigin, tempDestination;
                 int tempDistance, tempPrice;
@@ -214,7 +225,7 @@ public class Admin extends Person {
                         
                 System.out.println("Submit id of the train you want to change its route: ");
                 int tempTrainId = input.nextInt();
-                
+                input.nextLine();
                 
                 System.out.println("Submit the origin of the route: ");
                 tempOrigin = input.nextLine();
@@ -243,6 +254,7 @@ public class Admin extends Person {
             } else if(AdminChoice == 3){
                 System.out.println("Choose which action you want to perform\n1- Generate report for number of passengers\n2- Generate report for total fare\n3- Come back to the main list ");
                 int tempChoice = input.nextInt();
+                input.nextLine();
                 switch(tempChoice){
                     case 1:        
                         System.out.println("Submit origin: ");
