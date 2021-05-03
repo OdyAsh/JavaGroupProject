@@ -17,7 +17,10 @@ public class Ticket{
 
     //gets ticket price depending on seat position; 
     //the lower the seat number position, 
-    //the higher the quality of the seat, and thus higher ticket price
+    //the higher the quality of the seat, and thus higher ticket price;
+    //seats 1 to 10: 20egp
+    //seats 11 to 35: 15egp
+    //seats 36 to last: 10egp
     public int getSeatPrice() {
         return (seatNum<=10 ? 20 : seatNum<=35 ? 15 : 10);
     }

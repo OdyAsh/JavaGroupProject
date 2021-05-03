@@ -28,7 +28,8 @@ public class Passenger extends Person {
     
     private void showAvailableTickets(int trainIndex){
         System.out.println("These are the available seats on this train");
-            for(int i = 0; i < 50; ++i){
+        int trainSeatLimit = Station.getTrainsList().get(trainIndex).getSEATNUMLIMIT();
+            for(int i = 0; i < trainSeatLimit; ++i){
                 if(Station.getTrainsList().get(trainIndex).getTakenSeats()[i] == false){
                     System.out.print((i + 1) + " ");
                 }
@@ -52,6 +53,7 @@ public class Passenger extends Person {
         
         System.out.println("Choose one of the following options:\n1- Change seat number\n2- Change time slot");
         int passengerChoice = input.nextInt();
+        
         
         int trainIndex = findTrain(source, destination, timeSlot);
         int trainID = Station.getTrainsList().get(trainIndex).getId();
@@ -132,7 +134,7 @@ public class Passenger extends Person {
         System.out.println("\nEnter the number of the seat or 0 to terminate the process");
         int passengerChoice = input.nextInt();
         
-        if(passengerChoice == 0)return;
+        if(passengerChoice == 0) return;
         
         Station.getTrainsList().get(trainIndex).getBookedPassengers().remove(this);
         Station.getTrainsList().get(trainIndex).getTakenSeats()[passengerChoice - 1] = false;
@@ -164,7 +166,7 @@ public class Passenger extends Person {
 
         if(passengerChoice == 0)return;
         
-        //this if checks if the passenger has never booked tickets on this train before and if so a key with the value of the train id with an arraylist of tickets will be add to the hash map.
+        //this checks if the passenger has never booked tickets on this train before and if so a key with the value of the train id with an arraylist of tickets will be add to the hash map.
         if(passengerTickets.get(Station.getTrainsList().get(trainIndex).getId()) == null){
             passengerTickets.put(Station.getTrainsList().get(trainIndex).getId(), new ArrayList<Ticket>());
         }
