@@ -148,37 +148,35 @@ public class Admin extends Person {
                     case 2: 
                         System.out.println("Please submit train id to remove from the station: ");
                         int tempId = input.nextInt();
-                        boolean toBeDeleted = false;
-                        int counter = -1;
+                        int found = -1;
                        for (int i=0; i<Station.getTrainsList().size(); i++)
                         {
                             Train temp = Station.getTrainsList().get(i);            
-                            if (temp.getId() == tempId)
-                                toBeDeleted = true;
-                            counter++;
+                            if (temp.getId() == tempId) {
+                                found = i;
+                                break;
+                            }
                         }
-                       if(toBeDeleted){
-                           Station.getTrainsList().remove(counter);
+                       if(found != -1){
+                           Station.getTrainsList().remove(found);
                            System.out.println("Train with id " + tempId + " Got deleted succesfully");
                        } else{
                            System.out.println("Train with id " + tempId + " Isn't found in the Station");
                        }
                 break;
                     case 3:  
-                        
-                boolean found = false;      
                 System.out.println("Submit id of the train you want to change its route: ");
                 int tempTrainId = input.nextInt();
-                int counterTrain = -1;
+                int found2 = -1; //called it found2, as compiler reads "found" variable from the previous case in the same scope, so it fails to declare it again
                  for (int i=0; i<Station.getTrainsList().size(); i++)
                 {
                  Train temp = Station.getTrainsList().get(i);            
                  if (temp.getId() == tempTrainId){
-                 found = true;
-                 counterTrain++;
+                    found2 = i;
+                    break;
                 }
                 }
-               if(found){
+               if(found2 != -1){
                 
                 System.out.println("Submit the origin of the route: ");
                 tempOrigin = input.next();
@@ -190,7 +188,7 @@ public class Admin extends Person {
                 tempPrice = input.nextInt();
                 
                 Route newRoute = new Route(tempOrigin,tempDestination,tempDistance,tempPrice);
-                Station.getTrainsList().get(counterTrain).setRoute(newRoute);
+                Station.getTrainsList().get(found2).setRoute(newRoute);
                 
                 System.out.println("Train with id " + tempTrainId + "'s route got updated succesfully");
                } else{
@@ -201,21 +199,20 @@ public class Admin extends Person {
                     case 4: 
                 System.out.println("Submit id of the train you want to change its route: ");
                 int TrainId = input.nextInt(); 
-                boolean foundTrain = false;
-                int counterRoute = -1;
+                int found3 = -1;
                 for (int i=0; i<Station.getTrainsList().size(); i++)
                 {
                  Train temp = Station.getTrainsList().get(i);            
                  if (temp.getId() == TrainId){
-                 foundTrain = true;
-                 counterRoute++;
+                 found3 = i;
+                 break;
                 }
                  
                 }
-                if(foundTrain){
+                if(found3 != -1){
                 System.out.println("Submit new timeslot: ");
                 int newTimeSlot = input.nextInt();
-                Station.getTrainsList().get(counterRoute).setTimeSlot(newTimeSlot);
+                Station.getTrainsList().get(found3).setTimeSlot(newTimeSlot);
                     System.out.println("Train with id " + TrainId + "'s Timeslot got updated succesfully");
                 } else {
                    System.out.println("Train with id " + TrainId + " Isn't found in the Station");
