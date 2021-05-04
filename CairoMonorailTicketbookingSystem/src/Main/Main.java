@@ -8,7 +8,71 @@ import java.util.Scanner;
 import Person.*;
 import Station.*;
 import Transportation.*;
+
 public class Main {
+    public static int login(int userType) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please Enter username: ");
+        String uName = input.nextLine();
+        System.out.println("Please Enter password: ");
+        String uPass = input.nextLine();
+        boolean found = false;
+        if (userType == 1) {
+            for (int i = 0; i < Station.getAdminsList().size(); i++) {
+                Admin ad = Station.getAdminsList().get(i);
+                if (uName.equals(ad.getUsername()) && uPass.equals(ad.getPassword())) {
+                    System.out.println("Login Successful!");
+                    return i;
+                }
+            }
+        }
+        else if (userType == 2) {
+            for (int i = 0; i < Station.getPassengersList().size(); i++) {
+                Passenger pa = Station.getPassengersList().get(i);
+                if (uName.equals(pa.getUsername()) && uPass.equals(pa.getPassword())) {
+                    System.out.println("Login Successful!");
+                    return i;
+                }
+            }
+        }
+        
+        System.out.println("Invalid username/password...\nWould you like to try again? (yes: 1, no: any other number)");
+        int tryAgain = input.nextInt();
+        if (tryAgain == 1) {
+            return login(userType);
+        }
+        else {
+            System.out.println("invalid type of user...");
+            return -1;
+        }
+    }
+    
+    public static int signUp(int userType) {
+           Scanner input = new Scanner(System.in);
+           String uUserName, uPass, uName;
+           System.out.println("Enter username: ");
+           uUserName = input.nextLine();
+           System.out.println("Enter password: ");
+           uPass = input.nextLine();
+           System.out.println("Enter display name (type \"no\" if you want it to be the same as username): ");
+           uName = input.nextLine();
+           uName = ("no".equals(uName) ? uUserName : uName);
+           
+        switch (userType) {
+            case 1:
+                Station.getAdminsList().add(new Admin(uName, uUserName, uPass));
+                return Station.getAdminsList().size() - 1;
+            case 2:
+                Station.getPassengersList().add(new Passenger(uName, uUserName, uPass));
+                return Station.getPassengersList().size() - 1;
+            default:
+                System.out.println("invalid type of user...\nwould you like to try again? (1 if yes, any other number otherwise)");
+                int tryAgain = input.nextInt();
+                return (tryAgain==1 ? signUp(userType) : -1);
+        }
+           
+    }
+    
     public static void main(String[] args) {
         //1.create 3 train objects in station, 2 admins and 3 passengers using different constructors
         //2. prompt user if he is admin or passenger using switch case
@@ -27,7 +91,51 @@ public class Main {
         Station.getPassengersList().add(new Passenger("AmroAbdo456", "pass456"));
         Station.getPassengersList().add(new Passenger("KhaledList", "pass696badumbist"));
         
-        
+        Scanner input = new Scanner(System.in);
+        int userType, userPlace;
+        do {
+            System.out.println("Enter user type (1 or 2):\n1 - Admin\n2 - Passenger\nAny other number - Exit");
+            userType = input.nextInt();
+            input.nextLine();
+            
+            switch(userType) {
+                case 1:
+                    System.out.println("login:");
+                    userPlace = login(userType);
+                        if (userPlace == -1) {
+                            System.out.println("Returning to previous screen...");
+                            break;
+                        }
+                        Station.getAdminsList().get(userPlace).displayOptions();
+                        break; 
+                        
+                case 2: 
+                    System.out.println("Do you want to login (1) or sign up (2)?\n1 - Login\n2 - Sign up");
+                    int accountChoice = input.nextInt();
+                    input.nextLine();
+                    if (accountChoice == 1) {
+                        userPlace = login(userType);
+                        if (userPlace == -1) {
+                            System.out.println("Returning to previous screen...");
+                            break;
+                        }
+                        Station.getPassengersList().get(userPlace).displayOptions();
+                    }
+                    else if (accountChoice == 2) {
+                        userPlace = signUp(userType);
+                        if (userPlace == -1) {
+                            System.out.println("returning to previous screen...");
+                            break;
+                        }
+                        Station.getPassengersList().get(userPlace).displayOptions();
+                    }
+                    break;
+                    
+                default:
+                    System.out.println("Thanks for using our system!\n");
+            }
+                
+        } while (userType == 1 || userType == 2);
         
     }
 }

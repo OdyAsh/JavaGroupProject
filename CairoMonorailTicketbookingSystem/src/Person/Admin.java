@@ -144,6 +144,7 @@ public class Admin extends Person {
                 Route tempRoute = new Route(tempOrigin, tempDestination, tempDistance,tempPrice);
                 Train trainTemp = new Train(tempRoute, tempTimeSlot);
                 Station.getTrainsList().add(trainTemp);
+                System.out.println("Train added successfully!");
                 break;
                     case 2: 
                         System.out.println("Please submit train id to remove from the station: ");
