@@ -151,12 +151,12 @@ public class Admin extends Person {
                         boolean toBeDeleted = false;
                         int counter = -1;
                        for (int i=0; i<Station.getTrainsList().size(); i++)
-                        {
-                            Train temp = Station.getTrainsList().get(i);            
-                            if (temp.getId() == tempId)
-                                toBeDeleted = true;
-                            counter++;
-                        }
+        {
+            Train temp = Station.getTrainsList().get(i);            
+            if (temp.getId() == tempId)
+                toBeDeleted = true;
+            counter++;
+        }
                        if(toBeDeleted){
                            Station.getTrainsList().remove(counter);
                            System.out.println("Train with id " + tempId + " Got deleted succesfully");

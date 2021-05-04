@@ -12,7 +12,7 @@ public class Train {
     private static int idCounter = 300;
     private int id;
     private Route route;
-    private int timeSlot;
+    private int timeSlot; //24 hour based
     private ArrayList <String> stopStations;
     private ArrayList <Passenger> bookedPassengers;
     private final int SEATNUMLIMIT;
@@ -100,7 +100,7 @@ public class Train {
         this.takenSeats = new boolean[SEATNUMLIMIT];
     }
 
-    public Train(int id, Route route, int timeSlot, ArrayList<String> stopStations, int SEATNUMLIMIT) {
+    public Train(Route route, int timeSlot, ArrayList<String> stopStations, int SEATNUMLIMIT) {
         Train.idCounter += 1;
         this.id = idCounter;
         this.route = route;

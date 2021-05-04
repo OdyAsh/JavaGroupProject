@@ -1,6 +1,6 @@
 /*
  *  Group 9
- *  Author: Abdo - Ashraf Adel
+ *  Author: Abdo
  */
 package Station;
 import java.util.ArrayList;
