@@ -10,6 +10,10 @@ import Station.*;
 import Transportation.*;
 
 public class Main {
+    /*
+    checks user's credentials and returns the index of the user object if he is stored in our system,
+    and returns -1 otherwise
+    */
     public static int login(int userType) {
         Scanner input = new Scanner(System.in);
         System.out.println("Please Enter username: ");
@@ -46,7 +50,12 @@ public class Main {
             return -1;
         }
     }
-    
+    /*
+    adds passenger's info in the system
+    note that even though there is code that could add an admin into the system,
+    it is never executed as the project description specifies that the admin could only login into an already existing account,
+    so userType in the parameter will never be for admin as this argument will never be passed in main()
+    */
     public static int signUp(int userType) {
            Scanner input = new Scanner(System.in);
            String uUserName, uPass, uName;

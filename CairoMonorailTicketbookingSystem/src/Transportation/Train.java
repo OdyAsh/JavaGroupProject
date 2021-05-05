@@ -18,6 +18,40 @@ public class Train {
     private final int SEATNUMLIMIT;
     private boolean[] takenSeats;
     
+        public Train(Route route, int timeSlot)
+    {
+        Train.idCounter += 1;
+        this.id = idCounter;
+        this.route = route;
+        this.timeSlot = timeSlot;
+        this.stopStations = new ArrayList <>();
+        this.bookedPassengers = new ArrayList <>();
+        this.SEATNUMLIMIT = 50;
+        this.takenSeats = new boolean[SEATNUMLIMIT];
+    }
+
+    public Train(Route route, int timeSlot, ArrayList<String> stopStations) {
+        Train.idCounter += 1;
+        this.id = idCounter;
+        this.route = route;
+        this.timeSlot = timeSlot;
+        this.stopStations = stopStations;
+        this.bookedPassengers = new ArrayList <>();
+        this.SEATNUMLIMIT = 50;
+        this.takenSeats = new boolean[SEATNUMLIMIT];
+    }
+
+    public Train(Route route, int timeSlot, ArrayList<String> stopStations, int SEATNUMLIMIT) {
+        Train.idCounter += 1;
+        this.id = idCounter;
+        this.route = route;
+        this.timeSlot = timeSlot;
+        this.stopStations = stopStations;
+        this.bookedPassengers = new ArrayList <>();
+        this.SEATNUMLIMIT = validateTrainSeatsLimit(SEATNUMLIMIT);
+        this.takenSeats = new boolean[SEATNUMLIMIT];
+    }
+    
     //the 3 methods below are used to get the number of passengers
     //that are booked in the train's high (VIP) class seats, mid and low 
     //class seats respectively.
@@ -76,41 +110,6 @@ public class Train {
                 + "\nbooked passengers: " + bookedPassengers + "\ntrain's seats: " 
                 + SEATNUMLIMIT + "\ntaken seats (1 for taken): " + Arrays.toString(takenSeats) + "\n";
     }
-    
-    public Train(Route route, int timeSlot)
-    {
-        Train.idCounter += 1;
-        this.id = idCounter;
-        this.route = route;
-        this.timeSlot = timeSlot;
-        this.stopStations = new ArrayList <>();
-        this.bookedPassengers = new ArrayList <>();
-        this.SEATNUMLIMIT = 50;
-        this.takenSeats = new boolean[SEATNUMLIMIT];
-    }
-
-    public Train(Route route, int timeSlot, ArrayList<String> stopStations) {
-        Train.idCounter += 1;
-        this.id = idCounter;
-        this.route = route;
-        this.timeSlot = timeSlot;
-        this.stopStations = stopStations;
-        this.bookedPassengers = new ArrayList <>();
-        this.SEATNUMLIMIT = 50;
-        this.takenSeats = new boolean[SEATNUMLIMIT];
-    }
-
-    public Train(Route route, int timeSlot, ArrayList<String> stopStations, int SEATNUMLIMIT) {
-        Train.idCounter += 1;
-        this.id = idCounter;
-        this.route = route;
-        this.timeSlot = timeSlot;
-        this.stopStations = stopStations;
-        this.bookedPassengers = new ArrayList <>();
-        this.SEATNUMLIMIT = validateTrainSeatsLimit(SEATNUMLIMIT);
-        this.takenSeats = new boolean[SEATNUMLIMIT];
-    }
-    
     
     public int getId() {
         return id;

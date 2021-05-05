@@ -10,6 +10,16 @@ import java.util.*;
 public class Passenger extends Person {
     private HashMap <Integer, ArrayList<Ticket>> passengerTickets;
     
+    public Passenger(String name, String username, String password) {
+        super(name, username, password);
+        passengerTickets = new HashMap<Integer, ArrayList<Ticket>>();
+    }
+
+    public Passenger(String username, String password) {
+        super(username, password);
+        passengerTickets = new HashMap<Integer, ArrayList<Ticket>>();
+    }
+    
     //This function returns the index of a train with specific route and time slot or -1 if not found.
     private int findTrain(String source, String destination, int timeSlot){
         for(int i = 0;  i < Station.getTrainsList().size();  ++i){
@@ -247,15 +257,6 @@ public class Passenger extends Person {
         }
     }
     
-    public Passenger(String name, String username, String password) {
-        super(name, username, password);
-        passengerTickets = new HashMap<Integer, ArrayList<Ticket>>();
-    }
-
-    public Passenger(String username, String password) {
-        super(username, password);
-        passengerTickets = new HashMap<Integer, ArrayList<Ticket>>();
-    }
     
     public HashMap<Integer, ArrayList<Ticket>> getPassengerTickets() {
         return passengerTickets;
