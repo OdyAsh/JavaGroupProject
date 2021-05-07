@@ -9,7 +9,7 @@ import Person.*;
 import Station.*;
 import Transportation.*;
 
-public class Main {
+public class Main { 
     /*
     checks user's credentials and returns the index of the user object if he is stored in our system,
     and returns -1 otherwise
@@ -50,8 +50,10 @@ public class Main {
             return -1;
         }
     }
+    
     /*
-    adds passenger's info in the system
+    adds passenger's info in the system and returns the index of the final element in the arrayList
+    which points to this newly added person if signed up successfuly, returns -1 otherwise
     note that even though there is code that could add an admin into the system,
     it is never executed as the project description specifies that the admin could only login into an already existing account,
     so userType in the parameter will never be for admin as this argument will never be passed in main()
@@ -61,6 +63,13 @@ public class Main {
            String uUserName, uPass, uName;
            System.out.println("Enter username: ");
            uUserName = input.nextLine();
+           if (!Station.validateUsername(uUserName)) {
+               System.out.println("Username already taken...");
+               System.out.println("would you like to try again? (1 if yes, any other number otherwise)");
+               int tryAgain = input.nextInt();
+               input.nextLine();
+               return (tryAgain==1 ? signUp(userType) : -1);
+           }
            System.out.println("Enter password: ");
            uPass = input.nextLine();
            System.out.println("Enter display name (type \"no\" if you want it to be the same as username): ");
@@ -77,6 +86,7 @@ public class Main {
             default:
                 System.out.println("invalid type of user...\nwould you like to try again? (1 if yes, any other number otherwise)");
                 int tryAgain = input.nextInt();
+                input.nextLine();
                 return (tryAgain==1 ? signUp(userType) : -1);
         }
            

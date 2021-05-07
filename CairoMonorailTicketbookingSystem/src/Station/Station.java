@@ -6,6 +6,7 @@ package Station;
 import java.util.ArrayList;
 import Person.*;
 import Transportation.Train;
+import java.util.Scanner;
 public class Station {
     private static ArrayList<Passenger> passengersList = new ArrayList<Passenger>();
     private static ArrayList<Train> trainsList = new ArrayList<Train>();
@@ -13,6 +14,24 @@ public class Station {
 
     public Station() {
         
+    }
+    
+    /*
+    checks that username is unique in our system (no other person has this username)
+    */
+    public static boolean validateUsername(String uUserName) {
+        Scanner input = new Scanner(System.in);
+        for (int i = 0 ; i < Station.getAdminsList().size() ; i++) {
+               if (uUserName.equals(Station.getAdminsList().get(i).getName())) {
+                   return false;
+               }
+           }
+        for (int i = 0 ; i < Station.getPassengersList().size() ; i++) {
+               if (uUserName.equals(Station.getPassengersList().get(i).getName())) {
+                   return false;
+               }
+           }
+        return true;
     }
 
     public static ArrayList<Passenger> getPassengersList() {
@@ -38,5 +57,5 @@ public class Station {
     public static void setAdminsList(ArrayList<Admin> adminsList) {
         Station.adminsList = adminsList;
     }
-     
+
 }

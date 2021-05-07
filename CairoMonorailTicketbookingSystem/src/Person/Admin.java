@@ -10,7 +10,7 @@ public class Admin extends Person {
 
     private int found; // our main counter here to get the index where a train with the received ID exists so we can delete it from the arrayList
     private boolean foundBool; // boolean check whether route is found with passed origin and destination (Used in Generate reports functions)
-    Scanner input = new Scanner(System.in); // Local variable for Input to receive input from the user across all class functions
+    Scanner input = new Scanner(System.in).useDelimiter("\n"); // Local variable for Input to receive input from the user across all class functions, with useDelimiter to ignore newLines in input fields.
 
     public Admin(String name,String userName, String password) {
         super(name, userName, password);
@@ -29,6 +29,13 @@ public class Admin extends Person {
         System.out.println("Submit New Train Data: ");
         System.out.println("Time slot: ");
         int tempTimeSlot = input.nextInt();
+        /*
+                Validation on submited Timeslot to make sure it isn't negative and doesn't exceed our 24 hours based hour
+       */
+        while(tempTimeSlot < 0 || tempTimeSlot > 23){
+            System.out.println("Please submit a non negative timeslot (from 0 to 23): ");
+            tempTimeSlot = input.nextInt();
+        }
         String tempOrigin, tempDestination;
         int tempDistance, tempPrice;
 
@@ -38,8 +45,16 @@ public class Admin extends Person {
         tempDestination = input.next();
         System.out.println("Submit the Distance of the route: ");
         tempDistance = input.nextInt();
-        System.out.println("Submit the price of the route: ");
-        tempPrice = input.nextInt();
+        while(tempDistance < 0){
+             System.out.println("Please submit a non negative distance");
+             tempDistance = input.nextInt();
+             }
+                System.out.println("Submit the price of the route: ");
+                 tempPrice = input.nextInt();
+                while(tempPrice < 0){
+                    System.out.println("Please submit a non negative route price");
+                    tempPrice = input.nextInt();
+                }
 
         Route tempRoute = new Route(tempOrigin, tempDestination, tempDistance,tempPrice);
         Train trainTemp = new Train(tempRoute, tempTimeSlot);
@@ -70,7 +85,7 @@ public class Admin extends Person {
          }
     }
     /*
-    Change Specific Train 's Time slot by passing the train 's id you want to change. 
+    Change Specific Train 's Route by passing the train 's id you want to change. 
     Here also we are searching through the list of trains firstly before performing actions on trains.
     Raise not found error in case the train id which the user passed isn't found in the trains arrayList
     if it is found across the trainlist, it will processed And perform Update action on the train associated with passed id and change its route.
@@ -93,9 +108,22 @@ public class Admin extends Person {
                 String tempDestination = input.next();
                 System.out.println("Submit the Distance of the route: ");
                 int tempDistance = input.nextInt();
+                /*
+                Validation on submited Distance to make sure it isn't negative
+                */
+                while(tempDistance < 0){
+                    System.out.println("Please submit a non negative distance");
+                    tempDistance = input.nextInt();
+                }
                 System.out.println("Submit the price of the route: ");
                 int tempPrice = input.nextInt();
-                
+                /*
+                Validation on submited price to make sure it isn't negative
+                */
+                while(tempPrice < 0){
+                    System.out.println("Please submit a non negative route price");
+                    tempPrice = input.nextInt();
+                }
                 Route newRoute = new Route(tempOrigin,tempDestination,tempDistance,tempPrice);
                 Station.getTrainsList().get(found).setRoute(newRoute);
                 
@@ -124,6 +152,13 @@ public class Admin extends Person {
                 if(found != -1){
                 System.out.println("Submit new timeslot: ");
                 int newTimeSlot = input.nextInt();
+                /*
+                Validation on submited Timeslot to make sure it isn't negative and doesn't exceed our 24 hours based hour
+                */
+                while(newTimeSlot < 0 || newTimeSlot > 23){
+                    System.out.println("Please submit a non negative timeslot (from 0 to 23): ");
+                    newTimeSlot = input.nextInt();
+                }
                 Station.getTrainsList().get(found).setTimeSlot(newTimeSlot);
                     System.out.println("Train with id " + TrainId + "'s Timeslot got updated succesfully");
                 } else {
@@ -131,7 +166,7 @@ public class Admin extends Person {
                }
     }
     /* 
-    Function to generate report with total passengers who booked tickets on trains going through this route
+    Function to generate report with total passengers who booked tickets on trains going through a specific route
     Also along the total passengers We print detalied report with every train and detalid stats about High,Mid, and Low class passengers
     Before performing these actions, We firstly check if any train with passed origin and destination is found in the trains list, if true then perform aforementioned actions and print detailed data
     */
@@ -196,7 +231,7 @@ public class Admin extends Person {
     public String toString() {
         return "Admin info: " + "id=" + super.getId() + ", name=" + super.getName() + ", username=" + super.getUsername() + ", password=" + super.getPassword() + "\n";
     }
-    //this method is like the interface that the admin see upon login; it displays all the functionalities that the passenger can do
+    //this method is like the interface that the admin see upon login; it displays all the functionalities that the admin can do
     @Override
     public void displayOptions() {        
         System.out.println("Welcome "+ super.getName() + " to Cairo Monorail Ticket booking System Admin Panel");
@@ -263,7 +298,7 @@ public class Admin extends Person {
                         break;
                
                     case 4: 
-                        System.out.println("Submit id of the train you want to change its route: ");
+                        System.out.println("Submit id of the train you want to change its Time Slot: ");
                         int TrainId = input.nextInt(); 
                         changeTrainTimeSlot(TrainId);
                         break;
@@ -289,7 +324,7 @@ public class Admin extends Person {
                     String tempOriginForFare = input.next();
                     System.out.println("Submit Destination: ");
                     String tempDestinationForFare = input.next(); 
-                    System.out.println("Report about Passengers in this route: " + tempOriginForFare + " -> " + tempDestinationForFare + ":");
+                    System.out.println("Report about Passengers in this route: " + tempOriginForFare + " -> " + tempDestinationForFare + " : ");
                     getTotalFareInSpecificRoute(tempOriginForFare,tempDestinationForFare);
                 break;
                     default:
@@ -304,4 +339,3 @@ public class Admin extends Person {
     }
     
 }
-
