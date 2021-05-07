@@ -22,6 +22,41 @@ public class Admin extends Person {
         this.foundBool = false;
         this.found = -1;
     }
+    
+    private void changeName(int currentAdminPosition){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the new name");
+        String newName = input.nextLine();
+        
+        Station.getAdminsList().get(currentAdminPosition).setName(newName);
+        System.out.println("Your name has been updated successfully");
+    }
+    
+    private void changeUserName(int currentAdminPosition){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the new username");
+        String newUserName = input.nextLine();
+        
+        int checkUserName = Station.findUserName(newUserName);
+        
+        if(checkUserName != -1){
+            System.out.println("Invalid username");
+            return;
+        }
+        
+        Station.getAdminsList().get(currentAdminPosition).setUsername(newUserName);
+        System.out.println("Your username has been updated successfully");
+    }
+    
+    private void changePassword(int currentAdminPosition){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the new password");
+        String newPassword = input.nextLine();
+        
+        Station.getAdminsList().get(currentAdminPosition).setPassword(newPassword);
+        System.out.println("Your password has been updated successfully");
+    }
+    
     /* 
     Function to add train to arrayList of trains in station
     */
@@ -181,12 +216,14 @@ public class Admin extends Person {
                 tempMid = Station.getTrainsList().get(i).getMidClassTakenSeats();
                 tempLow = Station.getTrainsList().get(i).getLowClassTakenSeats();
                 System.out.println("Train: " + Station.getTrainsList().get(i).getId() + "\n Number of High Class Passengers: " + tempHigh + 
-                        "\n Number Mid Class Passengers: " + tempMid + "\n Number Low Class Passengers: " + tempLow + 
-                        "\n with total of: " + tempTotal + " Passengers \n");
+                        "\n Number Mid Class Passengers: " + tempMid + "\n Number Low Class Passengers: " + tempLow);
             }           
         }
+        
         if (!foundBool) 
             System.out.println("No trains with origin: " + origin + " and destination: " + destination + " were found.\n");
+        else
+            System.out.println("--------------\nwith total of: " + tempTotal + " Passengers \n");
          
     }
     /* 
@@ -215,7 +252,7 @@ public class Admin extends Person {
                         + "\n total High Class tickets: " + tempHigh + "\n fare: $" + highSeatsPrice 
                         + "\n total Mid Class tickets: " + tempMid + "\n fare: $" + midSeatsPrice 
                         + "\n total Low class tickets: " + tempLow + "\n fare: $" + lowSeatsPrice
-                        + "\n with total fare: $" + tempTotalPrice);
+                        + "\n with total fare: $" + tempTotalPrice + "\n");
             }         
         }
         if (!foundBool) {
@@ -241,36 +278,25 @@ public class Admin extends Person {
             int AdminChoice = input.nextInt();
             if(AdminChoice == 1){
                 
-                System.out.println("choose element you want to change \n1- Username\n2- Password\n3- Name\n4- All of them\n5- Come back to main list");
+                System.out.println("choose element you want to change \n1- Name\n2- Username\n3- Password\n4- All of them\n5- Come back to main list");
                 int tempChoice = input.nextInt();
+                
+                int currentAdminPosition = Station.findUserName(this.getUsername());
+                
                 switch(tempChoice){
                     case 1:
-                        System.out.println("Submit new Username: ");                
-                        String newUserName = input.next();
-                        setUsername(newUserName);   // method from Person class
+                        changeName(currentAdminPosition);
                         break;
                     case 2:
-                        System.out.println("Submit the new Password: ");
-                        String newPassword = input.next();
-                        setPassword(newPassword); // method from Person class
+                        changeUserName(currentAdminPosition);
                         break;
                     case 3: 
-                        System.out.println("Submit the new Name: ");
-                        String newName = input.next();
-                        setName(newName); // method from Person class
+                        changePassword(currentAdminPosition);
                         break;
                     case 4:
-                        System.out.println("Submit new Username: ");
-                        String newUserNameWithAll = input.next();
-                        setUsername(newUserNameWithAll);  
-
-                        System.out.println("Submit the new Password: ");
-                        String newPasswordWithAll = input.next();
-                        setPassword(newPasswordWithAll);
-
-                        System.out.println("Submit the new Name: ");
-                        String newNameWithAll = input.next();
-                        setName(newNameWithAll);
+                        changeName(currentAdminPosition);
+                        changeUserName(currentAdminPosition);
+                        changePassword(currentAdminPosition);
                         break; 
                     default: 
                         break;

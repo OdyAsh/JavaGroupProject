@@ -19,19 +19,19 @@ public class Station {
     /*
     checks that username is unique in our system (no other person has this username)
     */
-    public static boolean validateUsername(String uUserName) {
+    public static int findUserName(String uUserName) {
         Scanner input = new Scanner(System.in);
         for (int i = 0 ; i < Station.getAdminsList().size() ; i++) {
-               if (uUserName.equals(Station.getAdminsList().get(i).getName())) {
-                   return false;
+               if (uUserName.equals(Station.getAdminsList().get(i).getUsername())) {
+                   return i;
                }
            }
         for (int i = 0 ; i < Station.getPassengersList().size() ; i++) {
-               if (uUserName.equals(Station.getPassengersList().get(i).getName())) {
-                   return false;
+               if (uUserName.equals(Station.getPassengersList().get(i).getUsername())) {
+                   return i;
                }
            }
-        return true;
+        return -1;
     }
 
     public static ArrayList<Passenger> getPassengersList() {

@@ -63,7 +63,7 @@ public class Main {
            String uUserName, uPass, uName;
            System.out.println("Enter username: ");
            uUserName = input.nextLine();
-           if (!Station.validateUsername(uUserName)) {
+           if (Station.findUserName(uUserName) != -1) {
                System.out.println("Username already taken...");
                System.out.println("would you like to try again? (1 if yes, any other number otherwise)");
                int tryAgain = input.nextInt();

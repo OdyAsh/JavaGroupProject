@@ -46,6 +46,40 @@ public class Passenger extends Person {
             }
     }
     
+    private void changeName(int currentPassengerPosition){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the new name");
+        String newName = input.nextLine();
+        
+        Station.getPassengersList().get(currentPassengerPosition).setName(newName);
+        System.out.println("Your name has been updated successfully");
+    }
+    
+    private void changeUserName(int currentPassengerPosition){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the new username");
+        String newUserName = input.nextLine();
+        
+        int checkUserName = Station.findUserName(newUserName);
+        
+        if(checkUserName != -1){
+            System.out.println("Invalid username");
+            return;
+        }
+        
+        Station.getPassengersList().get(currentPassengerPosition).setUsername(newUserName);
+        System.out.println("Your username has been updated successfully");
+    }
+    
+    private void changePassword(int currentPassengerPosition){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the new password");
+        String newPassword = input.nextLine();
+        
+        Station.getPassengersList().get(currentPassengerPosition).setPassword(newPassword);
+        System.out.println("Your password has been updated successfully");
+    }
+    
     private void updateBooking(){
         Scanner input = new Scanner(System.in);
         
@@ -227,7 +261,7 @@ public class Passenger extends Person {
         System.out.println("Welcome to Cairo Monorail Ticket booking System");
 
         while(true){
-            System.out.println("Please, choose one of the following options\n1- Book ticket\n2- Cancel ticket\n3- Update ticket\n4- Display booked tickets\n5- Exit");
+            System.out.println("Please, choose one of the following options\n1- Book ticket\n2- Cancel ticket\n3- Update ticket\n4- Display booked tickets\n5- Modify Account\n6- Exit");
             int passengerChoice = input.nextInt();
             input.nextLine();
             if(passengerChoice == 1){
@@ -249,6 +283,28 @@ public class Passenger extends Person {
             }
             else if(passengerChoice == 4){
                 displayBookedTickets();
+            }
+            else if(passengerChoice == 5){
+                System.out.println("1- Change name\n2- Change username\n3- Change password\n4- All of them\n5- Come back to main list");
+                int option = input.nextInt();
+                
+                int currentPassengerPosition = Station.findUserName(this.getUsername());
+                
+                if(option == 1){
+                    changeName(currentPassengerPosition);
+                }
+                else if(option == 2){    
+                    changeUserName(currentPassengerPosition);
+                }
+                else if(option == 3){
+                    changePassword(currentPassengerPosition);
+                }
+                else if(option == 4){
+                    changeName(currentPassengerPosition);
+                    changeUserName(currentPassengerPosition);
+                    changePassword(currentPassengerPosition);
+                }
+                
             }
             else{
                 System.out.println("Thank you for using our system");
