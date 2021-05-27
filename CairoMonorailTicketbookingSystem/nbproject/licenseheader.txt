@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} Group 9
+${licensePrefix} Author: 
+<#if licenseLast??>
+${licenseLast}
+</#if>
