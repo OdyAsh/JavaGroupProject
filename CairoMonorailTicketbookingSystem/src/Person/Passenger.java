@@ -5,9 +5,10 @@
 package Person;
 import Station.*;
 import Transportation.*;
+import java.io.Serializable;
 import java.util.*;
 
-public class Passenger extends Person {
+public class Passenger extends Person implements Serializable {
     private HashMap <Integer, ArrayList<Ticket>> passengerTickets;
     
     public Passenger(String name, String username, String password) {
@@ -55,7 +56,7 @@ public class Passenger extends Person {
         System.out.println("Your name has been updated successfully");
     }
     
-    private void changeUserName(int currentPassengerPosition){
+    private void changeUserName(int currentPassengerPosition) throws Exception{
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the new username");
         String newUserName = input.nextLine();
@@ -255,7 +256,7 @@ public class Passenger extends Person {
     
     //this method is like the interface that the passenger see upon login; it displays all the functionalities that the passenger can do
     @Override
-    public void displayOptions() {
+    public void displayOptions() throws Exception {
         Scanner input = new Scanner(System.in);
         
         System.out.println("Welcome to Cairo Monorail Ticket booking System");

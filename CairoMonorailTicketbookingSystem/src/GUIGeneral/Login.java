@@ -2,7 +2,14 @@
  *  Group 9
  *  Author: 
  */
-package GUIMainPages;
+package GUIGeneral;
+
+import GUIPassenger.HomePassenger;
+import Person.*;
+import Station.Station;
+import UserDefinedExceptions.SignUpUserNameException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,11 +21,18 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     int userType;
+    int adminChoice, passChoice;
+    ArrayList<Passenger> pList;
+    ArrayList<Admin> aList;
     public Login() {
+        this.adminChoice = 1;
+        this.passChoice = 2;
         initComponents();
     }
     public Login(int userType) {
         this.userType = userType;
+        this.adminChoice = 1;
+        this.passChoice = 2;
         initComponents();
     }
 
@@ -39,7 +53,7 @@ public class Login extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("login form");
+        setTitle("Login form");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel2.setText("Username");
@@ -119,13 +133,36 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordPassFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        if (userType == 1)
-        {
-            
+        String uUserName = usernameTextField.getText();
+        char[] uPassChars = passwordPassField.getPassword();
+        String uPass = String.copyValueOf(uPassChars);
+        Person p = null;
+        
+        if (uUserName.equals("") || uPass.equals("")) {
+            JOptionPane.showMessageDialog(this, "One of the fields are empty...", "Invalid input", JOptionPane.ERROR_MESSAGE);
         }
-        else if (userType == 2)
-        {
+        else {
+            try {
+                p = Station.login(userType, uUserName, uPass);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Can't open storage file to check your data...");
+            }
             
+            if (p != null) {
+                JOptionPane.showMessageDialog(this, "login Successful!\nTaking you to home page...");
+                if (userType == adminChoice) {
+                    Admin ad = (Admin) p;
+                    HomeAdmin ha = new HomeAdmin(p);
+                    ha.setVisible(true);
+                    this.dispose();
+                }
+                else if (userType == passengerChoice) {
+                    Passenger pa = (Passenger) p;
+                    HomePassenger hp = new HomePassenger(pa);
+                    hp.setVisible(true);
+                    this.dispose();
+                }
+            }
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

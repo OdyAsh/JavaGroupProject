@@ -4,7 +4,9 @@
  */
 package Transportation;
 
-public class Ticket{
+import java.io.Serializable;
+
+public class Ticket implements Serializable{
     private static int idCounter = 400;
     private int id;
     private int seatNum;

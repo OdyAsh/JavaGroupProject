@@ -2,8 +2,16 @@
  *  Group 9
  *  Author: 
  */
-package GUIMainPages;
+package GUIGeneral;
+import GUIPassenger.HomePassenger;
+import Person.Passenger;
+import Person.Person;
+import Station.Station;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
+import UserDefinedExceptions.SignUpUserNameException;
 /**
  *
  * @author Ash
@@ -13,10 +21,14 @@ public class Signup extends javax.swing.JFrame {
     /**
      * Creates new form Signup
      */
+    int userType;
     public Signup() {
         initComponents();
     }
-
+    public Signup(int userType) {
+        this.userType = userType;
+        initComponents();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,8 +44,11 @@ public class Signup extends javax.swing.JFrame {
         signupButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        nameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Signup form");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel4.setText("Password");
@@ -63,6 +78,15 @@ public class Signup extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel3.setText("Signup");
 
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setText("Name");
+
+        nameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameTextFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,14 +101,18 @@ public class Signup extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(12, 12, 12)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(usernameTextField)
                             .addComponent(passwordPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel3)))
+                                .addComponent(jLabel3))
+                            .addComponent(nameTextField, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(86, 86, 86))))
         );
         layout.setVerticalGroup(
@@ -92,15 +120,19 @@ public class Signup extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(jLabel3)
-                .addGap(33, 33, 33)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(passwordPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(signupButton)
                 .addGap(41, 41, 41))
         );
@@ -117,8 +149,37 @@ public class Signup extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordPassFieldActionPerformed
 
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
+        String uName = nameTextField.getText();
+        String uUserName = usernameTextField.getText();
+        char[] uPassChars = passwordPassField.getPassword();
+        String uPass = String.copyValueOf(uPassChars);
+        Person p = null;
         
+        if (uName.equals("") || uUserName.equals("") || uPass.equals("")) {
+            JOptionPane.showMessageDialog(this, "One of the fields are empty...", "Invalid input", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            try {
+                p = Station.signUp(2, uName, uUserName, uName);
+            } catch (SignUpUserNameException e) {
+                JOptionPane.showMessageDialog(this, e, "Unavailable username", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Can't open file to store your data in...");
+            }
+            
+            if (p != null) {
+                JOptionPane.showMessageDialog(this, "Signup Successful!\nTaking you to home page...");
+                Passenger pa = (Passenger) p;
+                HomePassenger hp = new HomePassenger(pa);
+                hp.setVisible(true);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_signupButtonActionPerformed
+
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,6 +220,8 @@ public class Signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField nameTextField;
     private javax.swing.JPasswordField passwordPassField;
     private javax.swing.JButton signupButton;
     private javax.swing.JTextField usernameTextField;

@@ -3,100 +3,25 @@
  *  Author: Ashraf 196280
  */
 package Main;
+import GUIGeneral.UserType;
 import java.util.ArrayList;
 import java.util.Scanner;
 import Person.*;
 import Station.*;
 import Transportation.*;
 
-public class Main { 
-    /*
-    checks user's credentials and returns the index of the user object if he is stored in our system,
-    and returns -1 otherwise
-    */
-    public static int login(int userType) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Please Enter username: ");
-        String uName = input.nextLine();
-        System.out.println("Please Enter password: ");
-        String uPass = input.nextLine();
-        boolean found = false;
-        if (userType == 1) {
-            for (int i = 0; i < Station.getAdminsList().size(); i++) {
-                Admin ad = Station.getAdminsList().get(i);
-                if (uName.equals(ad.getUsername()) && uPass.equals(ad.getPassword())) {
-                    System.out.println("Login Successful!");
-                    return i;
-                }
-            }
-        }
-        else if (userType == 2) {
-            for (int i = 0; i < Station.getPassengersList().size(); i++) {
-                Passenger pa = Station.getPassengersList().get(i);
-                if (uName.equals(pa.getUsername()) && uPass.equals(pa.getPassword())) {
-                    System.out.println("Login Successful!");
-                    return i;
-                }
-            }
-        }
-        
-        System.out.println("Invalid username/password...\nWould you like to try again? (yes: 1, no: any other number)");
-        int tryAgain = input.nextInt();
-        if (tryAgain == 1) {
-            return login(userType);
-        }
-        else {
-            System.out.println("invalid type of user...");
-            return -1;
-        }
-    }
-    
-    /*
-    adds passenger's info in the system and returns the index of the final element in the arrayList
-    which points to this newly added person if signed up successfuly, returns -1 otherwise
-    note that even though there is code that could add an admin into the system,
-    it is never executed as the project description specifies that the admin could only login into an already existing account,
-    so userType in the parameter will never be for admin as this argument will never be passed in main()
-    */
-    public static int signUp(int userType) {
-           Scanner input = new Scanner(System.in);
-           String uUserName, uPass, uName;
-           System.out.println("Enter username: ");
-           uUserName = input.nextLine();
-           if (Station.findUserName(uUserName) != -1) {
-               System.out.println("Username already taken...");
-               System.out.println("would you like to try again? (1 if yes, any other number otherwise)");
-               int tryAgain = input.nextInt();
-               input.nextLine();
-               return (tryAgain==1 ? signUp(userType) : -1);
-           }
-           System.out.println("Enter password: ");
-           uPass = input.nextLine();
-           System.out.println("Enter display name (type \"no\" if you want it to be the same as username): ");
-           uName = input.nextLine();
-           uName = ("no".equals(uName) ? uUserName : uName);
-           
-        switch (userType) {
-            case 1:
-                Station.getAdminsList().add(new Admin(uName, uUserName, uPass));
-                return Station.getAdminsList().size() - 1;
-            case 2:
-                Station.getPassengersList().add(new Passenger(uName, uUserName, uPass));
-                return Station.getPassengersList().size() - 1;
-            default:
-                System.out.println("invalid type of user...\nwould you like to try again? (1 if yes, any other number otherwise)");
-                int tryAgain = input.nextInt();
-                input.nextLine();
-                return (tryAgain==1 ? signUp(userType) : -1);
-        }
-           
-    }
-    
-    public static void main(String[] args) {
+public class Main {
+   
+    public static void main(String[] args) throws Exception {
         //1.create 3 train objects in station, 2 admins and 3 passengers using different constructors
         //2. prompt user if he is admin or passenger using switch case
         //3. if passenger: prompt to create account or login. If admin, ask for login details directly
         //4. displayOptions() of passenger/admin
+        //^^^phase 1 steps
+        
+        //Below code is commented, as it is run one time only to input data to TrainsList, AdminsList, PassengersList text files respectively,
+        //data is commented for reference about the initial data that you will find the text files
+        /*
         Station.getTrainsList().add(new Train(new Route("cairo", "alexandria", 5), 13));
         Station.getTrainsList().add(new Train(new Route("cairo", "alexandria", 5), 15));
         ArrayList <String> stopStations = new ArrayList<>();
@@ -110,6 +35,14 @@ public class Main {
         Station.getPassengersList().add(new Passenger("AmroAbdo456", "pass456"));
         Station.getPassengersList().add(new Passenger("KhaledList", "pass696badumbist"));
         
+        Station.setPassengersList(Station.getPassengersList()); //Creating a new file for passengers
+        */
+        
+        UserType ut = new UserType();
+        ut.setVisible(true);
+        
+        //Phase 1 code
+        /*
         Scanner input = new Scanner(System.in);
         int userType, userPlace;
         do {
@@ -155,6 +88,7 @@ public class Main {
             }
                 
         } while (userType == 1 || userType == 2);
-        
+        */
     }
+    
 }

@@ -32,7 +32,7 @@ public class Admin extends Person {
         System.out.println("Your name has been updated successfully");
     }
     
-    private void changeUserName(int currentAdminPosition){
+    private void changeUserName(int currentAdminPosition) throws Exception{
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the new username");
         String newUserName = input.nextLine();
@@ -270,7 +270,7 @@ public class Admin extends Person {
     }
     //this method is like the interface that the admin see upon login; it displays all the functionalities that the admin can do
     @Override
-    public void displayOptions() {        
+    public void displayOptions() throws Exception {        
         System.out.println("Welcome "+ super.getName() + " to Cairo Monorail Ticket booking System Admin Panel");
 
         while(true){

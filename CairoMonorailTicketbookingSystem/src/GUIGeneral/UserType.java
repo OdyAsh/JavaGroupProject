@@ -2,7 +2,7 @@
  *  Group 9
  *  Author: 
  */
-package GUIMainPages;
+package GUIGeneral;
 
 /**
  *
@@ -13,7 +13,10 @@ public class UserType extends javax.swing.JFrame {
     /**
      * Creates new form UserType
      */
+    int adminChoice, passChoice;
     public UserType() {
+        this.adminChoice = 1;
+        this.passChoice = 2;
         initComponents();
     }
 
@@ -131,7 +134,7 @@ public class UserType extends javax.swing.JFrame {
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
         if (passengerRadio.isSelected())
         {
-            Signup signupForm = new Signup();
+            Signup signupForm = new Signup(passChoice);
             signupForm.setVisible(true);
             this.dispose();
         }
@@ -140,13 +143,13 @@ public class UserType extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         if (adminRadio.isSelected())
         {
-            Login loginForm = new Login(1);
+            Login loginForm = new Login(adminChoice);
             loginForm.setVisible(true);
             this.dispose();
         }
         else if (passengerRadio.isSelected())
         {
-            Login loginForm = new Login(2);
+            Login loginForm = new Login(passChoice);
             loginForm.setVisible(true);
             this.dispose();
         }

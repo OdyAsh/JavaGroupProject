@@ -5,10 +5,13 @@
 package Person;
 //the idCounter generates the id of each object created, in order to avoid id duplicates if the id was manually entered per object creation
 //this logic is used in the following classes:
+
+import java.io.Serializable;
+
 //Person: 100
 //Train: 300
 //Ticket: 400
-public abstract class Person {
+public abstract class Person implements Serializable {
     private static int idCounter = 100;
     private int id;
     private String name;
@@ -22,7 +25,7 @@ public abstract class Person {
     //in the trains that take a specific route
     //in passenger:
     //display options of booking, cancelling, or updating train reservation.
-    public abstract void displayOptions();
+    public abstract void displayOptions() throws Exception;
 
     @Override
     public String toString() {
