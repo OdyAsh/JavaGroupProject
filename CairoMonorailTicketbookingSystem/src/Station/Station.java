@@ -127,7 +127,7 @@ public class Station {
             case 1:
                 Admin a = new Admin(uName, uUserName, uPass);
                 Station.getAdminsList().add(a);
-                //todo: Station.setAdminsList(Station.getAdminsList());
+                //Station.setAdminsList(Station.getAdminsList());
                 return a;
             case 2:
                 Passenger p = new Passenger(uName, uUserName, uPass);
@@ -182,11 +182,28 @@ public class Station {
     }
 
     public static ArrayList<Admin> getAdminsList() {
+         if (adminsList.isEmpty())
+        {
+            try {
+                FileInputStream file = new FileInputStream("AdminsList.txt");
+                ObjectInputStream output = new ObjectInputStream(file);
+                adminsList = (ArrayList<Admin>)output.readObject();
+                output.close();
+                file.close();
+            } catch(Exception e) {
+                System.out.println("there is no file created yet setAdminsList() should be called first...\n");
+            }
+        }
         return adminsList;
     }
 
-    public static void setAdminsList(ArrayList<Admin> adminsList) {
+    public static void setAdminsList(ArrayList<Admin> adminsList) throws Exception {
+        FileOutputStream file = new FileOutputStream("AdminsList.txt");
+        ObjectOutputStream output = new ObjectOutputStream(file);
+        output.writeObject(adminsList);
         Station.adminsList = adminsList;
+        output.close();
+        file.close();
     }
 
 }
