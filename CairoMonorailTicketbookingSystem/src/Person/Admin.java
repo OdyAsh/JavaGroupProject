@@ -5,8 +5,11 @@ package Person;
 import java.util.ArrayList;
 import Transportation.*;
 import Station.Station;
+import java.io.Serializable;
 import java.util.Scanner;
-public class Admin extends Person {
+import UserDefinedExceptions.SignUpUserNameException;
+
+public class Admin extends Person implements Serializable{
 
     private int found; // our main counter here to get the index where a train with the received ID exists so we can delete it from the arrayList
     private boolean foundBool; // boolean check whether route is found with passed origin and destination (Used in Generate reports functions)
@@ -23,29 +26,30 @@ public class Admin extends Person {
         this.found = -1;
     }
     
-    private void changeName(int currentAdminPosition){
-        Scanner input = new Scanner(System.in);
+    private void changeName(int currentAdminPosition, String newName){
+        /*Scanner input = new Scanner(System.in);
         System.out.println("Enter the new name");
-        String newName = input.nextLine();
+        String newName = input.nextLine();*/
         
         Station.getAdminsList().get(currentAdminPosition).setName(newName);
-        System.out.println("Your name has been updated successfully");
+        //System.out.println("Your name has been updated successfully");
     }
     
-    private void changeUserName(int currentAdminPosition) throws Exception{
-        Scanner input = new Scanner(System.in);
+    public void changeUserName(int currentAdminPosition, String newUserName) throws Exception{
+        /*Scanner input = new Scanner(System.in);
         System.out.println("Enter the new username");
         String newUserName = input.nextLine();
+        */
         
         int checkUserName = Station.findUserName(newUserName);
         
         if(checkUserName != -1){
-            System.out.println("Invalid username");
-            return;
-        }
+            throw new SignUpUserNameException(newUserName);
+        }else{
         
         Station.getAdminsList().get(currentAdminPosition).setUsername(newUserName);
-        System.out.println("Your username has been updated successfully");
+        // System.out.println("Your username has been updated successfully");
+        }
     }
     
     private void changePassword(int currentAdminPosition){
@@ -205,25 +209,16 @@ public class Admin extends Person {
     Also along the total passengers We print detalied report with every train and detalid stats about High,Mid, and Low class passengers
     Before performing these actions, We firstly check if any train with passed origin and destination is found in the trains list, if true then perform aforementioned actions and print detailed data
     */
-    private void getTotalPassengersInSpecificRoute(String origin,String destination){
-        int tempTotal = 0, tempHigh = 0,tempMid = 0 , tempLow = 0;
-        foundBool = false;
+    public ArrayList<Train> getTotalPassengersInSpecificRoute(String origin,String destination){
+        ArrayList<Train> tempArr = null;
         for(int i = 0; i < Station.getTrainsList().size(); i++){
             if(Station.getTrainsList().get(i).getRoute().getOrigin().equals(origin) && Station.getTrainsList().get(i).getRoute().getDestination().equals(destination)){
                 foundBool = true;
-                tempTotal += Station.getTrainsList().get(i).getHighClassTakenSeats() + Station.getTrainsList().get(i).getLowClassTakenSeats() + Station.getTrainsList().get(i).getMidClassTakenSeats();
-                tempHigh = Station.getTrainsList().get(i).getHighClassTakenSeats();
-                tempMid = Station.getTrainsList().get(i).getMidClassTakenSeats();
-                tempLow = Station.getTrainsList().get(i).getLowClassTakenSeats();
-                System.out.println("Train: " + Station.getTrainsList().get(i).getId() + "\n Number of High Class Passengers: " + tempHigh + 
-                        "\n Number Mid Class Passengers: " + tempMid + "\n Number Low Class Passengers: " + tempLow);
+                tempArr.add(Station.getTrainsList().get(i));
             }           
         }
         
-        if (!foundBool) 
-            System.out.println("No trains with origin: " + origin + " and destination: " + destination + " were found.\n");
-        else
-            System.out.println("--------------\nwith total of: " + tempTotal + " Passengers \n");
+return tempArr;
          
     }
     /* 
@@ -231,37 +226,14 @@ public class Admin extends Person {
     We also print total tickets and total fare collected through this route.
     Before performing these actions, We firstly check if any train with passed origin and destination is found in the trains list, if true then perform aforementioned actions and print detailed data about total fare and total tickets for every train found in the list and multiply number of tickets with known price, depending on ticket 's category
     */
-    private void getTotalFareInSpecificRoute(String origin,String destination){
-        int totalTickets = 0, totalFare = 0, 
-            tempHigh = 0,tempMid = 0 , tempLow = 0, 
-            ticketHigh = 30, ticketMid = 20, ticketLow = 10;
-         foundBool = false;
+    public ArrayList<Train> getTotalFareInSpecificRoute(String origin,String destination){
+        ArrayList<Train> tempArr=null;
         for(int i = 0; i < Station.getTrainsList().size(); i++){
             if(Station.getTrainsList().get(i).getRoute().getOrigin().equals(origin) && Station.getTrainsList().get(i).getRoute().getDestination().equals(destination)){
-                foundBool = true;
-                tempHigh = Station.getTrainsList().get(i).getHighClassTakenSeats();
-                tempMid = Station.getTrainsList().get(i).getMidClassTakenSeats();
-                tempLow = Station.getTrainsList().get(i).getLowClassTakenSeats();
-                int highSeatsPrice = tempHigh * ticketHigh;
-                int midSeatsPrice = tempMid * ticketMid;
-                int lowSeatsPrice = tempLow * ticketLow; 
-                int tempTotalPrice = highSeatsPrice + midSeatsPrice + lowSeatsPrice;
-                totalTickets += tempHigh + tempMid + tempLow;
-                totalFare += tempTotalPrice;
-                System.out.println("Train: " + Station.getTrainsList().get(i).getId() 
-                        + "\n total High Class tickets: " + tempHigh + "\n fare: $" + highSeatsPrice 
-                        + "\n total Mid Class tickets: " + tempMid + "\n fare: $" + midSeatsPrice 
-                        + "\n total Low class tickets: " + tempLow + "\n fare: $" + lowSeatsPrice
-                        + "\n with total fare: $" + tempTotalPrice + "\n");
+                tempArr.add(Station.getTrainsList().get(i));
             }         
         }
-        if (!foundBool) {
-            System.out.println("No trains with origin: " + origin + " and destination: " + destination + " were foundBool.\n");
-        }
-        else {
-            System.out.println("-----------------------\n total tickets of all trains: " + totalTickets
-                                + "\n with total fare: $" + totalFare + "\n");
-        }
+return tempArr;
         
     }
     @Override
@@ -269,7 +241,7 @@ public class Admin extends Person {
         return "Admin info: " + "id=" + super.getId() + ", name=" + super.getName() + ", username=" + super.getUsername() + ", password=" + super.getPassword() + "\n";
     }
     //this method is like the interface that the admin see upon login; it displays all the functionalities that the admin can do
-    @Override
+    /*@Override
     public void displayOptions() throws Exception {        
         System.out.println("Welcome "+ super.getName() + " to Cairo Monorail Ticket booking System Admin Panel");
 
@@ -362,6 +334,11 @@ public class Admin extends Person {
                 return;
             }
         }
+    }*/
+
+    @Override
+    public void displayOptions() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
