@@ -8,7 +8,10 @@ import Person.Admin;
 import Transportation.Train;
 import javax.swing.JOptionPane;
 import Station.Station;
+import UserDefinedExceptions.RouteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -146,10 +149,16 @@ public class GenerateReports extends javax.swing.JFrame {
         if(Origin.equals("") || Destination.equals("")){
             JOptionPane.showMessageDialog(this, "Please submit origin and destination first...");
         }else{
-            Passenger.setEnabled(true);
-            TotalFare.setEnabled(true);
+            Passenger.setVisible(true);
+            TotalFare.setVisible(true);
             if(Passenger.isSelected()){
-                tempTrain = tempUser.getTotalPassengersInSpecificRoute(Origin.getText(), Destination.getText());
+                try {
+                    tempTrain = tempUser.getTotalPassengersInSpecificRoute(Origin.getText(), Destination.getText());
+                } catch (RouteException e){
+                    JOptionPane.showMessageDialog(this, e, "Invalid route", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    Logger.getLogger(GenerateReports.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 if(tempTrain == null){
                     JOptionPane.showMessageDialog(this, "There is no trains in specified route");
                 }else{
