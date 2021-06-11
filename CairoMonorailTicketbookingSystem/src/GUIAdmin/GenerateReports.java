@@ -18,8 +18,8 @@ import java.util.logging.Logger;
  * @author infolos
  */
 public class GenerateReports extends javax.swing.JFrame {
-    Admin tempUser = null;
-    ArrayList<Train> tempTrain = null;
+    Admin tempUser;
+    ArrayList<Train> tempTrain;
     /**
      * Creates new form GenerateReports
      */

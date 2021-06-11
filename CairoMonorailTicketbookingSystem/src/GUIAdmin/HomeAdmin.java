@@ -14,7 +14,7 @@ import Station.*;
  */
 public class HomeAdmin extends javax.swing.JFrame {
 
-    Admin currentUser = new Admin("test","Test","test");
+    Admin currentUser;
     /**
      * Creates new form HomeAdmin
      */
@@ -161,7 +161,9 @@ public class HomeAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_GenerateReportActionPerformed
 
     private void TrainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TrainActionPerformed
-        // TODO add your handling code here:
+        Modify_frame tr = new Modify_frame(currentUser);
+        tr.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_TrainActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed

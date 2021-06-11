@@ -26,12 +26,13 @@ public class Admin extends Person implements Serializable{
         this.found = -1;
     }
     
-    private void changeName(int currentAdminPosition, String newName){
+    public void changeName(int currentAdminPosition, String newName) throws Exception{
         /*Scanner input = new Scanner(System.in);
         System.out.println("Enter the new name");
         String newName = input.nextLine();*/
         
         Station.getAdminsList().get(currentAdminPosition).setName(newName);
+        Station.setAdminsList( Station.getAdminsList());
         //System.out.println("Your name has been updated successfully");
     }
     
@@ -48,17 +49,19 @@ public class Admin extends Person implements Serializable{
         }else{
         
         Station.getAdminsList().get(currentAdminPosition).setUsername(newUserName);
+        Station.setAdminsList( Station.getAdminsList());
         // System.out.println("Your username has been updated successfully");
         }
     }
     
-    private void changePassword(int currentAdminPosition){
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter the new password");
-        String newPassword = input.nextLine();
+    public void changePassword(int currentAdminPosition, String newPassword) throws Exception{
+        //Scanner input = new Scanner(System.in);
+        //System.out.println("Enter the new password");
+        //String newPassword = input.nextLine();
         
         Station.getAdminsList().get(currentAdminPosition).setPassword(newPassword);
-        System.out.println("Your password has been updated successfully");
+        Station.setAdminsList( Station.getAdminsList());
+        //System.out.println("Your password has been updated successfully");
     }
     
     /* 
@@ -343,6 +346,10 @@ public class Admin extends Person implements Serializable{
 
     @Override
     public void displayOptions() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void changeUsername(int id, String uUserName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

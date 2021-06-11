@@ -14,9 +14,8 @@ import javax.swing.table.DefaultTableModel;
  * @author infolos
  */
 public class TotalFareReport extends javax.swing.JFrame {
-ArrayList<Train> trainList = null;
- JTable table = new JTable();
- DefaultTableModel model = (DefaultTableModel) table.getModel();
+ArrayList<Train> trainList;
+ DefaultTableModel model;
     int totalFare = 0,tempTotal = 0, tempHigh = 0,tempMid = 0 , tempLow = 0,ticketHigh = 30, ticketMid = 20, ticketLow = 10,highSeatsPrice=0,midSeatsPrice=0,lowSeatsPrice=0,tempTotalPrice=0;
     /**
      * Creates new form TotalFareReport
@@ -30,6 +29,7 @@ ArrayList<Train> trainList = null;
         origin1.setText(origin);
         Destination1.setText(destination);
         trainList = ReceivedTrainList;
+        model = (DefaultTableModel) jTable1.getModel();
         for(int i = 0; i < trainList.size(); i++){
             tempHigh += trainList.get(i).getHighClassTakenSeats();
             tempMid += trainList.get(i).getMidClassTakenSeats();
@@ -79,10 +79,7 @@ ArrayList<Train> trainList = null;
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Train ID", "High Class($)", "Mid Class($)", "Low Class($)"

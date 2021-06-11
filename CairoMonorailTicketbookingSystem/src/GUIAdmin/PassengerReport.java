@@ -14,8 +14,8 @@ import javax.swing.table.DefaultTableModel;
  * @author infolos
  */
 public class PassengerReport extends javax.swing.JFrame {
- ArrayList<Train> trainList = null;
-
+ ArrayList<Train> trainList;
+ DefaultTableModel model;
     int tempTotal = 0, tempHigh = 0,tempMid = 0 , tempLow = 0;
     /**
      * Creates new form PassengerReport
@@ -23,23 +23,22 @@ public class PassengerReport extends javax.swing.JFrame {
     public PassengerReport() {
         initComponents();
         JTable table = new JTable();
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
     }
     public PassengerReport(ArrayList<Train> ReceivedTrainList, String origin, String destination) {
         initComponents();
-         JTable table = new JTable();
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model = (DefaultTableModel) jTable1.getModel();
         origin1.setText(origin);
         Destination1.setText(destination);
         trainList = ReceivedTrainList;
+        System.out.println(trainList.get(0).getHighClassTakenSeats());
         for(int i = 0; i < trainList.size(); i++){
-            model.addRow(new Object[]{trainList.get(i).getId(),trainList.get(i).getHighClassTakenSeats(),trainList.get(i).getMidClassTakenSeats(),trainList.get(i).getLowClassTakenSeats()});
+            model.insertRow(model.getRowCount(),new Object[]{trainList.get(i).getId(),trainList.get(i).getHighClassTakenSeats(),trainList.get(i).getMidClassTakenSeats(),trainList.get(i).getLowClassTakenSeats()});
             tempHigh += trainList.get(i).getHighClassTakenSeats();
             tempMid += trainList.get(i).getMidClassTakenSeats();
             tempLow += trainList.get(i).getLowClassTakenSeats();
             tempTotal += tempHigh + tempMid + tempLow;
         }
-        model.addRow(new Object[]{"Total",tempHigh,tempMid,tempLow});
+        model.insertRow(model.getRowCount(),new Object[]{"Total",tempHigh,tempMid,tempLow});
         total.setText(String.valueOf(tempTotal));
      
     }
@@ -77,10 +76,7 @@ public class PassengerReport extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Train ID", "High Class", "Mid Class", "Low Class"
@@ -94,6 +90,7 @@ public class PassengerReport extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jLabel3.setText("Total number of passengers: ");

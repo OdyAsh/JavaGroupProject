@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 
 public class ModifyAccount extends javax.swing.JFrame {
 
-    Admin tempUser = null;
+    Admin tempUser;
     /**
      * Creates new form ModifyAccount
      */
@@ -51,7 +51,7 @@ public class ModifyAccount extends javax.swing.JFrame {
         Username = new javax.swing.JTextField();
         Password = new javax.swing.JPasswordField();
         Update = new javax.swing.JButton();
-        Close = new javax.swing.JButton();
+        cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,10 +86,10 @@ public class ModifyAccount extends javax.swing.JFrame {
             }
         });
 
-        Close.setText("Cancel");
-        Close.addActionListener(new java.awt.event.ActionListener() {
+        cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CloseActionPerformed(evt);
+                cancelActionPerformed(evt);
             }
         });
 
@@ -98,27 +98,27 @@ public class ModifyAccount extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Update))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(Close)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Name)
-                            .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(128, 128, 128)
+                        .addComponent(cancel)
+                        .addGap(45, 45, 45)
+                        .addComponent(Update))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(100, 100, 100)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addGap(44, 44, 44)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Name)
+                                    .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(166, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -139,7 +139,7 @@ public class ModifyAccount extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Update)
-                    .addComponent(Close))
+                    .addComponent(cancel))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -155,11 +155,15 @@ public class ModifyAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_NameActionPerformed
 
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
-        String uName = Name.getText();
+       String uName = Name.getText();
         String uUserName = Username.getText();
         char[] uPassChars = Password.getPassword();
         String uPass = String.copyValueOf(uPassChars);
-        if(Name.getText().isEmpty() && Username.getText().isEmpty()){
+        
+        if(Name.getText().isEmpty() || Username.getText().isEmpty() || uPass == ""){
+            JOptionPane.showMessageDialog(this, "You can't leave a field empty!...");
+        }else{
+            if(uName.equals(tempUser.getName()) && uPass.equals(tempUser.getPassword())){
             try{
                 JOptionPane.showMessageDialog(this, "Modified Username succesffuly ...");
                 tempUser.changeUserName(tempUser.getId(), uUserName);
@@ -168,29 +172,28 @@ public class ModifyAccount extends javax.swing.JFrame {
         }   catch (Exception ex) {
                 Logger.getLogger(ModifyAccount.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if(uPass.equals("") && uUserName.equals("")){
-                JOptionPane.showMessageDialog(this, "Modified Name succesffuly ...");
-                tempUser.setUsername(uUserName);
-        }else if(Username.getText().isEmpty() && Name.getText().isEmpty()){
-                JOptionPane.showMessageDialog(this, "Modified Password succesffuly ...");
-                tempUser.setPassword(uPass);
-        }else{
-            JOptionPane.showMessageDialog(this, "Modified account data succesffuly ...");
-            tempUser.setName(uName);
-            tempUser.setUsername(uUserName);
-            tempUser.setPassword(uPass);
+            }else{
+                try {
+                    JOptionPane.showMessageDialog(this, "Modified account data succesffuly ...");
+                    tempUser.changeName(tempUser.getId(), uName);
+                    tempUser.changeUsername(tempUser.getId(),uUserName);
+                    tempUser.changePassword(tempUser.getId(),uPass);
+                } catch (Exception ex) {
+                    Logger.getLogger(ModifyAccount.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
         }
     }//GEN-LAST:event_UpdateActionPerformed
-
-    private void CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseActionPerformed
-        HomeAdmin ha = new HomeAdmin(tempUser);
-        ha.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_CloseActionPerformed
 
     private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_UsernameActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        HomeAdmin ha = new HomeAdmin(tempUser);
+        ha.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_cancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,11 +231,11 @@ public class ModifyAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Close;
     private javax.swing.JTextField Name;
     private javax.swing.JPasswordField Password;
     private javax.swing.JButton Update;
     private javax.swing.JTextField Username;
+    private javax.swing.JButton cancel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
