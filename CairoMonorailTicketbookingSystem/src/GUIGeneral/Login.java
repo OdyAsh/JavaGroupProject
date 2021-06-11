@@ -4,6 +4,7 @@
  */
 package GUIGeneral;
 
+import GUIAdmin.HomeAdmin;
 import GUIPassenger.HomePassenger;
 import Person.*;
 import Station.Station;
@@ -152,16 +153,19 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "login Successful!\nTaking you to home page...");
                 if (userType == adminChoice) {
                     Admin ad = (Admin) p;
-                    HomeAdmin ha = new HomeAdmin(p);
+                    HomeAdmin ha = new HomeAdmin(ad);
                     ha.setVisible(true);
                     this.dispose();
                 }
-                else if (userType == passengerChoice) {
+                else if (userType == passChoice) {
                     Passenger pa = (Passenger) p;
                     HomePassenger hp = new HomePassenger(pa);
                     hp.setVisible(true);
                     this.dispose();
                 }
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Invalid username/password...");
             }
         }
     }//GEN-LAST:event_loginButtonActionPerformed

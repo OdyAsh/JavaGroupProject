@@ -4,7 +4,9 @@
  */
 package Transportation;
 
-public class Route {
+import java.io.Serializable;
+
+public class Route implements Serializable {
     private String origin;
     private String destination;
     private int distance;

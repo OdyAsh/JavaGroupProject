@@ -30,7 +30,7 @@ public class Ticket implements Serializable{
 
     @Override
     public String toString() {
-        return "Ticket " + "id: " + id + ", seatNum: " + seatNum + "\n";
+        return "id: " + id + ", seat no.: " + seatNum;
     }
     
     public int getId() {

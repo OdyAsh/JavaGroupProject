@@ -7,6 +7,7 @@ package Station;
 
 import java.util.ArrayList;
 import Person.*;
+import Transportation.Route;
 import Transportation.Train;
 import java.util.Scanner;
 
@@ -16,11 +17,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import UserDefinedExceptions.SignUpUserNameException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Station {
     private static ArrayList<Passenger> passengersList = new ArrayList<Passenger>();
     private static ArrayList<Train> trainsList = new ArrayList<Train>();
     private static ArrayList<Admin> adminsList = new ArrayList<Admin>();
+
+   
 
     public Station() {
         
@@ -149,6 +154,7 @@ public class Station {
     }
 
     public static ArrayList<Passenger> getPassengersList() {
+        
         if (passengersList.isEmpty())
         {
             try {
@@ -173,20 +179,55 @@ public class Station {
         fos.close();
     }
 
-    public static ArrayList<Train> getTrainsList() {
+    public static ArrayList<Train> getTrainsList()  {
+         if (trainsList.isEmpty())
+        {
+            try {
+                FileInputStream fis = new FileInputStream("trainsList.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                trainsList = (ArrayList<Train>)ois.readObject();
+                ois.close();
+                fis.close();
+            } catch(Exception e) {
+                System.out.println("1st time execution to input data, so no file is created yet till setTrainList() is called...\n");
+            }
+        }
         return trainsList;
     }
+    
 
-    public static void setTrainsList(ArrayList<Train> trainsList) {
+    public static void setTrainsList(ArrayList<Train> trainsList) throws Exception {
+         FileOutputStream fos = new FileOutputStream("trainsList.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(trainsList);
         Station.trainsList = trainsList;
+        oos.close();
+        fos.close();
     }
 
     public static ArrayList<Admin> getAdminsList() {
+         if (adminsList.isEmpty())
+        {
+            try {
+                FileInputStream file = new FileInputStream("AdminsList.txt");
+                ObjectInputStream output = new ObjectInputStream(file);
+                adminsList = (ArrayList<Admin>)output.readObject();
+                output.close();
+                file.close();
+            } catch(Exception e) {
+                System.out.println("there is no file created yet setAdminsList() should be called first...\n");
+            }
+        }
         return adminsList;
     }
 
-    public static void setAdminsList(ArrayList<Admin> adminsList) {
+    public static void setAdminsList(ArrayList<Admin> adminsList) throws Exception {
+        FileOutputStream file = new FileOutputStream("AdminsList.txt");
+        ObjectOutputStream output = new ObjectOutputStream(file);
+        output.writeObject(adminsList);
         Station.adminsList = adminsList;
+        output.close();
+        file.close();
     }
 
 }

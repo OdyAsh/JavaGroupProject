@@ -47,7 +47,16 @@ public abstract class Person implements Serializable {
         this.username = username;
         this.password = password;
     }
+
+    public static int getIdCounter() {
+        return idCounter;
+    }
+
+    public static void setIdCounter(int idCounter) {
+        Person.idCounter = idCounter;
+    }
     
+
     public int getId() {
         return id;
     }

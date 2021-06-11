@@ -7,6 +7,7 @@ import Station.*;
 import Transportation.*;
 import java.io.Serializable;
 import java.util.*;
+import javafx.util.Pair;
 
 public class Passenger extends Person implements Serializable {
     private HashMap <Integer, ArrayList<Ticket>> passengerTickets;
@@ -315,7 +316,7 @@ public class Passenger extends Person implements Serializable {
     }
     
     
-    public HashMap<Integer, ArrayList<Ticket>> getPassengerTickets() {
+    public HashMap<Pair<Integer, Integer>, ArrayList<Ticket>> getPassengerTickets() {
         return passengerTickets;
     }
 
