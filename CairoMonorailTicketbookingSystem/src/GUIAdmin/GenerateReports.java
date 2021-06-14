@@ -41,6 +41,7 @@ public class GenerateReports extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Destination = new javax.swing.JTextField();
@@ -59,8 +60,10 @@ public class GenerateReports extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Submit the Destination");
 
+        buttonGroup1.add(Passenger);
         Passenger.setText("Passenger");
 
+        buttonGroup1.add(TotalFare);
         TotalFare.setText("Total Fare");
 
         jLabel3.setText("Choose which entities you want to get report about");
@@ -107,8 +110,7 @@ public class GenerateReports extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(TotalFare)
                                     .addComponent(Passenger)))
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel3))))
                 .addGap(120, 120, 120))
         );
         layout.setVerticalGroup(
@@ -149,20 +151,23 @@ public class GenerateReports extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please submit origin and destination first...");
         }else{
             if(Passenger.isSelected()){
-                tempTrain = tempUser.getTotalPassengersInSpecificRoute(Origin.getText(), Destination.getText());
-                
-                if(tempTrain == null){
-                    JOptionPane.showMessageDialog(this, "There is no trains in specified route");
-                }else{
+                try {
+                    tempTrain = tempUser.getTotalPassengersInSpecificRoute(Origin.getText(), Destination.getText());
+                } catch (RouteException e) {
+                JOptionPane.showMessageDialog(this, e, "There is no trains in specified route", JOptionPane.ERROR_MESSAGE);
+                }
+                if(tempTrain != null){
                    PassengerReport pass = new PassengerReport(tempTrain,Origin.getText(),Destination.getText());
                    pass.setVisible(true);
                 }
         
             }else if(TotalFare.isSelected()){
-                tempTrain = tempUser.getTotalFareInSpecificRoute(Origin.getText(), Destination.getText());
-                if(tempTrain == null){
-                    JOptionPane.showMessageDialog(this, "There is no trains in specified route");
-                }else{
+                try {
+                    tempTrain = tempUser.getTotalFareInSpecificRoute(Origin.getText(), Destination.getText());
+                } catch (RouteException e) {
+                JOptionPane.showMessageDialog(this, e, "There is no trains in specified route", JOptionPane.ERROR_MESSAGE);
+                }
+                if(tempTrain != null){
                     TotalFareReport fare = new TotalFareReport(tempTrain,Origin.getText(),Destination.getText());
                    fare.setVisible(true);
                 }
@@ -214,6 +219,7 @@ public class GenerateReports extends javax.swing.JFrame {
     private javax.swing.JTextField Origin;
     private javax.swing.JRadioButton Passenger;
     private javax.swing.JRadioButton TotalFare;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

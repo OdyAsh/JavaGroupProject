@@ -170,12 +170,12 @@ public class Passenger extends Person {
     public void setPassengerTickets(HashMap<Pair<Integer, Integer>, ArrayList<Ticket>> passengerTickets) {
         this.passengerTickets = passengerTickets;
     }
-    /*
+    
     @Override
     public String toString() {
         return super.toString() + "\n" + "passengerTickets=" + passengerTickets + "\n";
     }
-    */
+    
     
  }
     

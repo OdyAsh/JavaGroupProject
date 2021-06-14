@@ -208,7 +208,7 @@ public class Modify_frame extends javax.swing.JFrame {
     private void Back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_buttonActionPerformed
         // TODO add your handling code here:
         this.toBack();
-        Admin_frame1 newframe=new  Admin_frame1(pa);
+        HomeAdmin newframe= new  HomeAdmin(pa);
         newframe.setVisible(true);
         newframe.toFront();
         

@@ -5,11 +5,10 @@ package Person;
 import java.util.ArrayList;
 import Transportation.*;
 import Station.Station;
+import UserDefinedExceptions.RouteException;
 import java.io.Serializable;
 import java.util.Scanner;
 import UserDefinedExceptions.SignUpUserNameException;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 
 public class Admin extends Person implements Serializable{
 
@@ -30,21 +29,11 @@ public class Admin extends Person implements Serializable{
     }
     
     public void changeName(int currentAdminPosition, String newName) throws Exception{
-        /*Scanner input = new Scanner(System.in);
-        System.out.println("Enter the new name");
-        String newName = input.nextLine();*/
-        
         Station.getAdminsList().get(currentAdminPosition).setName(newName);
         Station.setAdminsList( Station.getAdminsList());
-        //System.out.println("Your name has been updated successfully");
     }
     
     public void changeUserName(int currentAdminPosition, String newUserName) throws Exception{
-        /*Scanner input = new Scanner(System.in);
-        System.out.println("Enter the new username");
-        String newUserName = input.nextLine();
-        */
-        
         int checkUserName = Station.findUserName(newUserName);
         
         if(checkUserName != -1){
@@ -53,59 +42,22 @@ public class Admin extends Person implements Serializable{
         
         Station.getAdminsList().get(currentAdminPosition).setUsername(newUserName);
         Station.setAdminsList( Station.getAdminsList());
-        // System.out.println("Your username has been updated successfully");
         }
     }
     
     public void changePassword(int currentAdminPosition, String newPassword) throws Exception{
-        //Scanner input = new Scanner(System.in);
-        //System.out.println("Enter the new password");
-        //String newPassword = input.nextLine();
-        
         Station.getAdminsList().get(currentAdminPosition).setPassword(newPassword);
         Station.setAdminsList( Station.getAdminsList());
-        //System.out.println("Your password has been updated successfully");
     }
     
     /* 
     Function to add train to arrayList of trains in station
     */
-    public void addTrain(  ArrayList<Integer> timeSlot, String tempOrigin, String tempDestination, int tempDistance, int tempPrice, ArrayList<String> stopStations, int seatNumLimit) throws Exception {
-        //System.out.println("Submit New Train Data: ");
-        //System.out.println("Time slot: ");
-        //int tempTimeSlot = input.nextInt();
-        /*
-                Validation on submited Timeslot to make sure it isn't negative and doesn't exceed our 24 hours based hour
-       */
-//        while(tempTimeSlot < 0 || tempTimeSlot > 23){
-//            //System.out.println("Please submit a non negative timeslot (from 0 to 23): ");
-//            //tempTimeSlot = input.nextInt();
-//        }
-        //String tempOrigin, tempDestination;
-        //int tempDistance, tempPrice;
-
-        //System.out.println("Submit the origin of the route: ");
-        //tempOrigin = input.next();
-        //System.out.println("Submit the desination of the route: ");
-        //tempDestination = input.next();
-        //System.out.println("Submit the Distance of the route: ");
-        //tempDistance = input.nextInt();
-        //while(tempDistance < 0){
-             //System.out.println("Please submit a non negative distance");
-             //tempDistance = input.nextInt();
-             //}
-                //System.out.println("Submit the price of the route: ");
-                // tempPrice = input.nextInt();
-                //while(tempPrice < 0){
-                    //System.out.println("Please submit a non negative route price");
-                    //tempPrice = input.nextInt();
-                //}
-
-        Route tempRoute = new Route(tempOrigin, tempDestination, tempDistance,tempPrice);
-        Train trainTemp = new Train(tempRoute, timeSlot);
+    public void addTrain(ArrayList<Integer> timeSlot, String tempOrigin, String tempDestination, int tempDistance, int tempPrice, ArrayList<String> stopStations, int seatNumLimit) throws Exception {
+       Route tempRoute = new Route(tempOrigin, tempDestination, tempDistance,tempPrice);
+       Train trainTemp = new Train(tempRoute, timeSlot, stopStations, seatNumLimit);
        Station.getTrainsList().add(trainTemp);
        Station.setTrainsList(Station.getTrainsList());
-        //System.out.println("Train added successfully!");
     }
     /*
     Function to remove train with its id that gets generated in the report
@@ -141,36 +93,12 @@ public class Admin extends Person implements Serializable{
                    }
                 }
                if(found != -1){
-               /*
-                System.out.println("Submit the origin of the route: ");
-                String tempOrigin = input.next();
-                System.out.println("Submit the desination of the route: ");
-                String tempDestination = input.next();
-                System.out.println("Submit the Distance of the route: ");
-                int tempDistance = input.nextInt();
-                
-                //Validation on submited Distance to make sure it isn't negative
-                
-                while(tempDistance < 0){
-                    System.out.println("Please submit a non negative distance");
-                    tempDistance = input.nextInt();
-                }
-                System.out.println("Submit the price of the route: ");
-                int tempPrice = input.nextInt();
-                
-                //Validation on submited price to make sure it isn't negative
-                
-                while(tempPrice < 0){
-                    System.out.println("Please submit a non negative route price");
-                    tempPrice = input.nextInt();
-                }
-                */
-                Route newRoute = new Route(destination,origin,distance,price);
-                Station.getTrainsList().get(found).setRoute(newRoute);
-                Station.setTrainsList(Station.getTrainsList());
-                return true;
+                    Route newRoute = new Route(destination,origin,distance,price);
+                    Station.getTrainsList().get(found).setRoute(newRoute);
+                    Station.setTrainsList(Station.getTrainsList());
+                    return true;
                } else{
-                   return false;
+                    return false;
                }
     }
     /*
@@ -185,41 +113,33 @@ public class Admin extends Person implements Serializable{
         {
             Train temp = Station.getTrainsList().get(i);            
             if (temp.getId() == TrainId){
-            found = i;
-            break;
+                found = i;
+                break;
            }
-
         }
-        if(found != -1) {
-        //System.out.println("Submit new timeslot: ");
-//                int newTimeSlot = input.nextInt();
-        /*
-        Validation on submited Timeslot to make sure it isn't negative and doesn't exceed our 24 hours based hour
-        */
-//                while(newTimeSlot < 0 || newTimeSlot > 23){
-//                   System.out.println("Please submit a non negative timeslot (from 0 to 23): ");
-//                   newTimeSlot = input.nextInt();
-//               }
-        Train t = Station.getTrainsList().get(found);
-        if (t.getTakenSeats().containsKey(oldTimeSlot))
+        if(found != -1) 
         {
-            for (int i = 0 ; i <= t.getSEATNUMLIMIT(); i++) {
-                 if(t.getTakenSeats().get(oldTimeSlot).get(i)==true)
-                 {
-                     return -3; //train contains oldTimeSlot, but at least one passenger has already booked a ticket at that time, so you can't remove it
-                 }
-            }
-            Station.getTrainsList().get(found).getTakenSeats().remove(oldTimeSlot);
-            ArrayList<Boolean> ts = new ArrayList<>(t.getSEATNUMLIMIT());
-            for (int i = 0 ; i < t.getSEATNUMLIMIT() ; i++)
-                ts.add(false);
-            Station.getTrainsList().get(found).getTakenSeats().put(newTimeSlot, ts);
-            Station.setTrainsList(Station.getTrainsList());
-            return 1; //oldTimeSlot have been removed, newTimeSlot have been added as a key in the hashmap along with its boolean arraylist of empty (false) taken Seats
-        } 
-        else 
-            return -2; //train doesn't contain oldTimeSlot
-    }
+            Train t = Station.getTrainsList().get(found);
+            if (t.getTakenSeats().containsKey(oldTimeSlot))
+            {
+                for (int i = 0 ; i <= t.getSEATNUMLIMIT(); i++) 
+                {
+                     if(t.getTakenSeats().get(oldTimeSlot).get(i)==true)
+                     {
+                         return -3; //train contains oldTimeSlot, but at least one passenger has already booked a ticket at that time, so you can't remove it
+                     }
+                }
+                Station.getTrainsList().get(found).getTakenSeats().remove(oldTimeSlot);
+                ArrayList<Boolean> ts = new ArrayList<>(t.getSEATNUMLIMIT());
+                for (int i = 0 ; i < t.getSEATNUMLIMIT() ; i++)
+                    ts.add(false);
+                Station.getTrainsList().get(found).getTakenSeats().put(newTimeSlot, ts);
+                Station.setTrainsList(Station.getTrainsList());
+                return 1; //oldTimeSlot have been removed, newTimeSlot have been added as a key in the hashmap along with its boolean arraylist of empty (false) taken Seats
+            } 
+            else 
+                return -2; //train doesn't contain oldTimeSlot
+        }
         return -1; //trainID is not found 
  }
     /* 
@@ -227,7 +147,7 @@ public class Admin extends Person implements Serializable{
     Also along the total passengers We print detalied report with every train and detalid stats about High,Mid, and Low class passengers
     Before performing these actions, We firstly check if any train with passed origin and destination is found in the trains list, if true then perform aforementioned actions and print detailed data
     */
-    public ArrayList<Train> getTotalPassengersInSpecificRoute(String origin,String destination){
+    public ArrayList<Train> getTotalPassengersInSpecificRoute(String origin,String destination) throws RouteException{
         ArrayList<Train> tempArr = new ArrayList<>();
         for(int i = 0; i < Station.getTrainsList().size(); i++){
             if(Station.getTrainsList().get(i).getRoute().getOrigin().equals(origin) && Station.getTrainsList().get(i).getRoute().getDestination().equals(destination)){
@@ -235,9 +155,11 @@ public class Admin extends Person implements Serializable{
                 tempArr.add(Station.getTrainsList().get(i));
             }           
         }
-        if (tempArr.isEmpty())
-            return null;
-        return tempArr;
+        if (tempArr.isEmpty()){
+        throw new RouteException(origin,destination);
+        }else{
+                 return tempArr;   
+        }
          
     }
     /* 
@@ -245,123 +167,27 @@ public class Admin extends Person implements Serializable{
     We also print total tickets and total fare collected through this route.
     Before performing these actions, We firstly check if any train with passed origin and destination is found in the trains list, if true then perform aforementioned actions and print detailed data about total fare and total tickets for every train found in the list and multiply number of tickets with known price, depending on ticket 's category
     */
-    public ArrayList<Train> getTotalFareInSpecificRoute(String origin,String destination){
+    public ArrayList<Train> getTotalFareInSpecificRoute(String origin,String destination) throws RouteException{
         ArrayList<Train> tempArr = new ArrayList<>();
         for(int i = 0; i < Station.getTrainsList().size(); i++){
             if(Station.getTrainsList().get(i).getRoute().getOrigin().equals(origin) && Station.getTrainsList().get(i).getRoute().getDestination().equals(destination)){
                 tempArr.add(Station.getTrainsList().get(i));
             }         
         }
-        if (tempArr.isEmpty())
-            return null;
-        return tempArr;
+        if (tempArr.isEmpty()){
+            throw new RouteException(origin,destination);
+        }else{
+            return tempArr;   
+        }
         
     }
     @Override
     public String toString() {
         return "Admin info: " + "id=" + super.getId() + ", name=" + super.getName() + ", username=" + super.getUsername() + ", password=" + super.getPassword() + "\n";
     }
-    //this method is like the interface that the admin see upon login; it displays all the functionalities that the admin can do
-    /*@Override
-    public void displayOptions() throws Exception {        
-        System.out.println("Welcome "+ super.getName() + " to Cairo Monorail Ticket booking System Admin Panel");
-        while(true){
-            System.out.println("Please, choose one of the following options\n1- Modify Account\n2- Add/ Remove/ Update Trains\n3- Generate reports for specific routes\n4- Exit");
-            int AdminChoice = input.nextInt();
-            if(AdminChoice == 1){
-                
-                System.out.println("choose element you want to change \n1- Name\n2- Username\n3- Password\n4- All of them\n5- Come back to main list");
-                int tempChoice = input.nextInt();
-                
-                int currentAdminPosition = Station.findUserName(this.getUsername());
-                
-                switch(tempChoice){
-                    case 1:
-                        changeName(currentAdminPosition);
-                        break;
-                    case 2:
-                        changeUserName(currentAdminPosition);
-                        break;
-                    case 3: 
-                        changePassword(currentAdminPosition);
-                        break;
-                    case 4:
-                        changeName(currentAdminPosition);
-                        changeUserName(currentAdminPosition);
-                        changePassword(currentAdminPosition);
-                        break; 
-                    default: 
-                        break;
-                }
-                       
-            }
-            else if(AdminChoice == 2){
-                
-                // Add/ Remove/ Update Trains
-                System.out.println("Choose which action you want to perform\n1- Add new train\n2- Remove train\n3- Update train route\n4- Update train timeslot\n5- Come back to the main list ");
-                int tempChoice = input.nextInt();   
-                switch(tempChoice){
-                    case 1:
-                        addTrain();
-                        break;
-                    case 2: 
-                       System.out.println("Please submit train id to remove from the station: ");
-                       int tempId = input.nextInt();
-                       removeTrain(tempId);
-                       break;
-                    case 3:  
-                        System.out.println("Submit id of the train you want to change its route: ");
-                        int tempTrainId = input.nextInt();
-                        changeTrainRoute(tempTrainId);
-                        break;
-               
-                    case 4: 
-                        System.out.println("Submit id of the train you want to change its Time Slot: ");
-                        int TrainId = input.nextInt(); 
-                        changeTrainTimeSlot(TrainId);
-                        break;
-                
-                    default:
-                        break;
-                }
-                
-            } else if(AdminChoice == 3){
-                System.out.println("Choose which action you want to perform\n1- Generate report for number of passengers\n2- Generate report for total fare\n3- Come back to the main list ");
-                int tempChoice = input.nextInt();
-                switch(tempChoice){
-                    case 1:        
-                        System.out.println("Submit origin: ");
-                        String tempOrigin = input.next();
-                        System.out.println("Submit Destination: ");
-                        String tempDestination = input.next();
-                        System.out.println("Report about Passengers in this route: " + tempOrigin + " -> " + tempDestination + ":"); 
-                        getTotalPassengersInSpecificRoute(tempOrigin,tempDestination);
-                break;
-                    case 2: 
-                    System.out.println("Submit origin: ");
-                    String tempOriginForFare = input.next();
-                    System.out.println("Submit Destination: ");
-                    String tempDestinationForFare = input.next(); 
-                    System.out.println("Report about Passengers in this route: " + tempOriginForFare + " -> " + tempDestinationForFare + " : ");
-                    getTotalFareInSpecificRoute(tempOriginForFare,tempDestinationForFare);
-                break;
-                    default:
-                break;
-                }
-            }
-            else{
-                System.out.println("Thank you for using our system");
-                return;
-            }
-        }
-    }*/
-
+    
     @Override
     public void displayOptions() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void changeUsername(int id, String uUserName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

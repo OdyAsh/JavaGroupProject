@@ -24,7 +24,7 @@ public class Ticket implements Serializable{
     //seats 11 to 35: 15egp
     //seats 36 to last: 10egp
     public int getSeatPrice() {
-        return (seatNum<=10 ? 20 : seatNum<=35 ? 15 : 10);
+        return (seatNum<=10 ? 30 : seatNum<=35 ? 20 : 10);
     }
     
 

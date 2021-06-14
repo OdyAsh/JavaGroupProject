@@ -35,7 +35,6 @@ public class Station {
     checks that username is unique in our system (no other person has this username)
     */
     public static int findUserName(String uUserName) throws Exception {
-        Scanner input = new Scanner(System.in);
         for (int i = 0 ; i < Station.getAdminsList().size() ; i++) {
                if (uUserName.equals(Station.getAdminsList().get(i).getUsername())) {
                    return i;
@@ -54,20 +53,11 @@ public class Station {
     and returns null otherwise
     */
     public static Person login(int userType, String uUsername, String uPass) throws Exception {
-        /*
-        Scanner input = new Scanner(System.in);
-        System.out.println("Please Enter username: ");
-        String uName = input.nextLine();
-        System.out.println("Please Enter password: ");
-        String uPass = input.nextLine();
-        */
-        
         boolean found = false;
         if (userType == 1) {
             for (int i = 0; i < Station.getAdminsList().size(); i++) {
                 Admin ad = Station.getAdminsList().get(i);
                 if (uUsername.equals(ad.getUsername()) && uPass.equals(ad.getPassword())) {
-                    //System.out.println("Login Successful!");
                     return Station.getAdminsList().get(i);
                 }
             }
@@ -76,23 +66,10 @@ public class Station {
             for (int i = 0; i < Station.getPassengersList().size(); i++) {
                 Passenger pa = Station.getPassengersList().get(i);
                 if (uUsername.equals(pa.getUsername()) && uPass.equals(pa.getPassword())) {
-                    //System.out.println("Login Successful!");
                     return Station.getPassengersList().get(i);
                 }
             }
         }
-        /*
-        System.out.println("Invalid username/password...\nWould you like to try again? (yes: 1, no: any other number)");
-        int tryAgain = input.nextInt();
-        if (tryAgain == 1) {
-            return login(userType);
-        }
-        else {
-            System.out.println("invalid type of user...");
-            return -1;
-        }
-        */
-        //exception
         return null;
     }
     
@@ -104,55 +81,35 @@ public class Station {
     so userType in the parameter will never be for admin as this argument will never be passed in main()
     */
     public static Person signUp(int userType, String uName, String uUserName, String uPass) throws Exception {
-           /*
-           Scanner input = new Scanner(System.in);
-           String uUserName, uPass, uName;
-           System.out.println("Enter username: ");
-           uUserName = input.nextLine();
-           */
            if (Station.findUserName(uUserName) != -1) {
-               /*
-               System.out.println("Username already taken...");
-               System.out.println("would you like to try again? (1 if yes, any other number otherwise)");
-               int tryAgain = input.nextInt();
-               input.nextLine();
-               return (tryAgain==1 ? signUp(userType) : -1);
-               */
                throw new SignUpUserNameException(uUserName);
            }
-           /*
-           System.out.println("Enter password: ");
-           uPass = input.nextLine();
-           System.out.println("Enter display name (type \"no\" if you want it to be the same as username): ");
-           uName = input.nextLine();
-           uName = ("no".equals(uName) ? uUserName : uName);
-           */
-           
-        switch (userType) {
+           switch (userType) {
             case 1:
                 Admin a = new Admin(uName, uUserName, uPass);
                 Station.getAdminsList().add(a);
-                //todo: Station.setAdminsList(Station.getAdminsList());
+                Station.setAdminsList(Station.getAdminsList());//will overwrite the AdminsList.txt file with the new array
                 return a;
             case 2:
                 Passenger p = new Passenger(uName, uUserName, uPass);
                 Station.getPassengersList().add(p);
                 Station.setPassengersList(Station.getPassengersList()); //will overwrite the PassengersList.txt file with the new array
-                
                 return p;
             default:
-                /*
-                System.out.println("invalid type of user...\nwould you like to try again? (1 if yes, any other number otherwise)");
-                int tryAgain = input.nextInt();
-                input.nextLine();
-                return (tryAgain==1 ? signUp(userType) : -1);
-                */
-                
                 return null;
         }
            
     }
-
+    //the logic of handling the files in our program is as follows:
+    //1. at the very first time we want to get the passengers array list, the program still won't have any data,
+    //so passengersList.isEmpty() will become true, and then the program will check our created PassengersList.txt file to retrieve the data from it,
+    //after that, it won't access it again for reading, as it just got the latest data, and any newer data will be in the Station's arraylist, so no need to access the file for reading again,
+    //note that when first accessed, the setIdCounter() will make the static counters start at the max id found in the array list (which will be the last element in the arrayList)
+    //
+    //2. we made the catch print in the CMD, as the user will never see this output, as it displays only if there are no .txt files to begin with, which will never happen while he/she is using our system
+    //
+    //regarding the setters:
+    //1. they are used to write any new data from the station's arrayLists to the respective .txt files by calling the function like this : Station.setPassengersList(Station.getPassengersList());
     public static ArrayList<Passenger> getPassengersList() {
         
         if (passengersList.isEmpty())

@@ -14,7 +14,7 @@ import UserDefinedExceptions.SignUpUserNameException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import Station.Station;
 
 public class ModifyAccount extends javax.swing.JFrame {
 
@@ -163,25 +163,22 @@ public class ModifyAccount extends javax.swing.JFrame {
         if(Name.getText().isEmpty() || Username.getText().isEmpty() || uPass == ""){
             JOptionPane.showMessageDialog(this, "You can't leave a field empty!...");
         }else{
-            if(uName.equals(tempUser.getName()) && uPass.equals(tempUser.getPassword())){
-            try{
-                JOptionPane.showMessageDialog(this, "Modified Username succesffuly ...");
-                tempUser.changeUserName(tempUser.getId(), uUserName);
-            }catch (SignUpUserNameException e) {
-                JOptionPane.showMessageDialog(this, e, "Unavailable username", JOptionPane.ERROR_MESSAGE);
-        }   catch (Exception ex) {
+            try {
+                int i = -1;
+                for (i = 0 ; i < Station.getAdminsList().size() ; i++)
+                {
+                    if (Station.getAdminsList().get(i).getId() == tempUser.getId())
+                        break;
+                }
+                tempUser.changeName(i, uName);
+                tempUser.changeUserName(i,uUserName);
+                tempUser.changePassword(i,uPass);
+                JOptionPane.showMessageDialog(this, "Modified account data succesffuly ...");
+            } catch(SignUpUserNameException suune) {
+                JOptionPane.showMessageDialog(this, suune, "Unavailable username", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
                 Logger.getLogger(ModifyAccount.class.getName()).log(Level.SEVERE, null, ex);
             }
-            }else{
-                try {
-                    JOptionPane.showMessageDialog(this, "Modified account data succesffuly ...");
-                    tempUser.changeName(tempUser.getId(), uName);
-                    tempUser.changeUsername(tempUser.getId(),uUserName);
-                    tempUser.changePassword(tempUser.getId(),uPass);
-                } catch (Exception ex) {
-                    Logger.getLogger(ModifyAccount.class.getName()).log(Level.SEVERE, null, ex);
-                }
-        }
         }
     }//GEN-LAST:event_UpdateActionPerformed
 

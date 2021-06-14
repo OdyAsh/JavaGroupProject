@@ -4,12 +4,10 @@
  */
 package Transportation;
 import java.util.ArrayList;
-import java.util.Scanner;
 import Person.Passenger;
 import UserDefinedExceptions.TrainSeatsLimitException;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class Train implements Serializable {

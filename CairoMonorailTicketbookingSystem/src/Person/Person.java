@@ -18,7 +18,7 @@ public abstract class Person implements Serializable {
     private String username;
     private String password;
     
-    
+    //Phase 1 Notes: (in phase 2 , this method doesn't have any significance)
     //in admin:
     //display options of adding, removing, or updating train from the station class. 
     //Also provides an option to generate report of total fare and passengers 
