@@ -5,6 +5,9 @@
 package Main;
 import Station.*;
 import Person.*;
+import Transportation.Route;
+import Transportation.Train;
+import java.util.ArrayList;
 public class Main {
    
     public static void main(String[] args) throws Exception {
@@ -17,7 +20,8 @@ public class Main {
         //Below code is commented, as it is run one time only to input data to TrainsList, AdminsList, PassengersList text files respectively,
         //data is commented for reference about the initial data that you will find the text files
         
-        /*initial trainsList.txt file
+        //initial trainsList.txt file
+        /*
         ArrayList<Integer> timeSlot = new ArrayList<>();
         timeSlot.add(12);
         timeSlot.add(13);
@@ -27,6 +31,7 @@ public class Main {
         timeSlot2.add(16);
         ArrayList<Integer> timeSlot3 = new ArrayList<>();
         timeSlot3.add(17);
+        Train t = new Train(new Route("cairo", "alexandria", 5), timeSlot);        
         
         Station.getTrainsList().add(new Train(new Route("cairo", "alexandria", 5), timeSlot));
        
@@ -39,25 +44,27 @@ public class Main {
         Station.getTrainsList().add(T);
         
         Station.setTrainsList(Station.getTrainsList());
-        System.out.println(Station.getTrainsList());
         */
-        
+        System.out.println(Station.getTrainsList());
        
         /* initial AdminsList.txt data
         Station.getAdminsList().add(new Admin("khaledlist", "t123"));
         Station.getAdminsList().add(new Admin("abdelfattah78", "admin123"));
         Station.getAdminsList().add(new Admin("fathy87", "admin456"));
         Station.setAdminsList(Station.getAdminsList());
-        System.out.println(Station.getAdminsList());
         */
+        //System.out.println(Station.getAdminsList());
         
         
-        
-        //Station.getPassengersList().add(new Passenger("Mahmmoud Ashraf", "ash7ooda123", "pass123"));
-        //Station.getPassengersList().add(new Passenger("AmroAbdo456", "pass456"));
-        //Station.getPassengersList().add(new Passenger("KhaledList", "pass696badumbist"));
-        //Station.setPassengersList(Station.getPassengersList()); //Creating a new file for passengers
-        
+        // initial PassengersList.txt data
+        /*
+        Station.getPassengersList().add(new Passenger("Mahmmoud Ashraf", "ash7ooda123", "pass123"));
+        Station.getPassengersList().add(new Passenger("AmroAbdo456", "pass456")); 
+        //^^^most tests are done on this, note that it was changed to username: amro181, password: lol, and this passenger is now booked to first train with 1 ticket in timeslot 12 and 1 in 13
+        Station.getPassengersList().add(new Passenger("KhaledList", "pass696badumbist"));
+        Station.setPassengersList(Station.getPassengersList()); //Creating a new file for passengers
+        */
+        //System.out.println(Station.getPassengersList());
         
        // UserType ut = new UserType();
        // ut.setVisible(true);

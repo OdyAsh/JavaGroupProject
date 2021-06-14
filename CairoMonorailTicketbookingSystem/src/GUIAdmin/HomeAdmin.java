@@ -46,6 +46,7 @@ public class HomeAdmin extends javax.swing.JFrame {
         Train = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        AddTrain = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,7 +76,7 @@ public class HomeAdmin extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel4.setText("choose the action you would like to perform");
 
-        Train.setText("Add/Modify train");
+        Train.setText("Modify train");
         Train.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TrainActionPerformed(evt);
@@ -89,12 +90,19 @@ public class HomeAdmin extends javax.swing.JFrame {
             }
         });
 
+        AddTrain.setText("Add train");
+        AddTrain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddTrainActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,12 +119,14 @@ public class HomeAdmin extends javax.swing.JFrame {
                                 .addComponent(Logout))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(GenerateReport)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Train))
-                            .addComponent(jLabel4))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Train, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(AddTrain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap(76, Short.MAX_VALUE))
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
@@ -130,11 +140,17 @@ public class HomeAdmin extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel4)
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(GenerateReport)
-                    .addComponent(Train))
-                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(GenerateReport)
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AddTrain)
+                        .addGap(16, 16, 16)
+                        .addComponent(Train)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -173,6 +189,12 @@ public class HomeAdmin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_LogoutActionPerformed
 
+    private void AddTrainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTrainActionPerformed
+        Add_frame at = new Add_frame(currentUser);
+        at.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_AddTrainActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -209,6 +231,7 @@ public class HomeAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddTrain;
     private javax.swing.JButton GenerateReport;
     private javax.swing.JButton Logout;
     private javax.swing.JButton ModifyAccount;

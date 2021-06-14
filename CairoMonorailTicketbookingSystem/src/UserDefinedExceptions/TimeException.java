@@ -6,7 +6,7 @@ package UserDefinedExceptions;
 
 /**
  *
- * @author LENOVO
+ * @author Abdo
  */
 public class TimeException extends Exception{
      private final String error;

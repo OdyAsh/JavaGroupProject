@@ -8,6 +8,8 @@ import Station.Station;
 import java.io.Serializable;
 import java.util.Scanner;
 import UserDefinedExceptions.SignUpUserNameException;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 public class Admin extends Person implements Serializable{
 
@@ -19,6 +21,7 @@ public class Admin extends Person implements Serializable{
         super(name, userName, password);
         this.foundBool = false;
         this.found = -1;
+        
     }
     public Admin(String username, String password) {
         super(username, password);
@@ -67,7 +70,7 @@ public class Admin extends Person implements Serializable{
     /* 
     Function to add train to arrayList of trains in station
     */
-    public void addTrain(  ArrayList<Integer> timeSlot, String tempOrigin, String tempDestination, int tempDistance, int tempPrice) throws Exception {
+    public void addTrain(  ArrayList<Integer> timeSlot, String tempOrigin, String tempDestination, int tempDistance, int tempPrice, ArrayList<String> stopStations, int seatNumLimit) throws Exception {
         //System.out.println("Submit New Train Data: ");
         //System.out.println("Time slot: ");
         //int tempTimeSlot = input.nextInt();
@@ -87,16 +90,16 @@ public class Admin extends Person implements Serializable{
         //tempDestination = input.next();
         //System.out.println("Submit the Distance of the route: ");
         //tempDistance = input.nextInt();
-        while(tempDistance < 0){
+        //while(tempDistance < 0){
              //System.out.println("Please submit a non negative distance");
              //tempDistance = input.nextInt();
-             }
+             //}
                 //System.out.println("Submit the price of the route: ");
                 // tempPrice = input.nextInt();
-                while(tempPrice < 0){
+                //while(tempPrice < 0){
                     //System.out.println("Please submit a non negative route price");
                     //tempPrice = input.nextInt();
-                }
+                //}
 
         Route tempRoute = new Route(tempOrigin, tempDestination, tempDistance,tempPrice);
         Train trainTemp = new Train(tempRoute, timeSlot);
@@ -112,13 +115,12 @@ public class Admin extends Person implements Serializable{
     */
     public int removeTrain(int tempId) throws Exception{ 
          found = -1;
-         for (int i=0; i<Station.getTrainsList().size(); i++)
-         {
-         Train temp = Station.getTrainsList().get(i);            
-         if (temp.getId() == tempId) {
-         found = i;
-         break;
-         }
+         for (int i=0; i<Station.getTrainsList().size(); i++) {
+            Train temp = Station.getTrainsList().get(i);            
+            if (temp.getId() == tempId) {
+                found = i;
+                break;
+            }
          }
          return found;
     }
@@ -128,47 +130,47 @@ public class Admin extends Person implements Serializable{
     Raise not found error in case the train id which the user passed isn't found in the trains arrayList
     if it is found across the trainlist, it will processed And perform Update action on the train associated with passed id and change its route.
     */
-   public void changeTrainRoute(int tempTrainId) throws Exception{
-        found = -1;
-                 for (int i=0; i<Station.getTrainsList().size(); i++)
+   public boolean changeTrainRoute(int tempTrainId, String origin, String destination, int distance, int price) throws Exception{
+                found = -1;
+                for (int i=0; i<Station.getTrainsList().size(); i++)
                 {
-                 Train temp = Station.getTrainsList().get(i);            
-                 if (temp.getId() == tempTrainId){
-                    found = i;
-                    break;
-                }
+                    Train temp = Station.getTrainsList().get(i);            
+                    if (temp.getId() == tempTrainId){
+                       found = i;
+                       break;
+                   }
                 }
                if(found != -1){
-               
+               /*
                 System.out.println("Submit the origin of the route: ");
                 String tempOrigin = input.next();
                 System.out.println("Submit the desination of the route: ");
                 String tempDestination = input.next();
                 System.out.println("Submit the Distance of the route: ");
                 int tempDistance = input.nextInt();
-                /*
-                Validation on submited Distance to make sure it isn't negative
-                */
+                
+                //Validation on submited Distance to make sure it isn't negative
+                
                 while(tempDistance < 0){
                     System.out.println("Please submit a non negative distance");
                     tempDistance = input.nextInt();
                 }
                 System.out.println("Submit the price of the route: ");
                 int tempPrice = input.nextInt();
-                /*
-                Validation on submited price to make sure it isn't negative
-                */
+                
+                //Validation on submited price to make sure it isn't negative
+                
                 while(tempPrice < 0){
                     System.out.println("Please submit a non negative route price");
                     tempPrice = input.nextInt();
                 }
-                Route newRoute = new Route(tempOrigin,tempDestination,tempDistance,tempPrice);
+                */
+                Route newRoute = new Route(destination,origin,distance,price);
                 Station.getTrainsList().get(found).setRoute(newRoute);
-                 Station.setTrainsList(Station.getTrainsList());
-                
-                System.out.println("Train with id " + tempTrainId + "'s route got updated succesfully");
+                Station.setTrainsList(Station.getTrainsList());
+                return true;
                } else{
-                   System.out.println("Train with id " + tempTrainId + " Isn't found in the Station");
+                   return false;
                }
     }
     /*
@@ -177,39 +179,49 @@ public class Admin extends Person implements Serializable{
     Raise not found error in case the train id which the user passed isn't found in the trains arrayList
     if it is found across the trainlist, it will processed And perform Update action on the train associated with passed id and change its timeslot.
     */
-    public  void changeTrainTimeSlot(int TrainId) throws Exception{
+    public  int changeTrainTimeSlot(int TrainId, int oldTimeSlot, int newTimeSlot) throws Exception{
         found = -1;
-                for (int i=0; i<Station.getTrainsList().size(); i++)
-                {
-                 Train temp = Station.getTrainsList().get(i);            
-                 if (temp.getId() == TrainId){
-                 found = i;
-                 break;
-                }
-                 
-                }
-                if(found != -1){
-                System.out.println("Submit new timeslot: ");
+        for (int i=0; i<Station.getTrainsList().size(); i++)
+        {
+            Train temp = Station.getTrainsList().get(i);            
+            if (temp.getId() == TrainId){
+            found = i;
+            break;
+           }
+
+        }
+        if(found != -1) {
+        //System.out.println("Submit new timeslot: ");
 //                int newTimeSlot = input.nextInt();
-                /*
-                Validation on submited Timeslot to make sure it isn't negative and doesn't exceed our 24 hours based hour
-                */
+        /*
+        Validation on submited Timeslot to make sure it isn't negative and doesn't exceed our 24 hours based hour
+        */
 //                while(newTimeSlot < 0 || newTimeSlot > 23){
 //                   System.out.println("Please submit a non negative timeslot (from 0 to 23): ");
 //                   newTimeSlot = input.nextInt();
 //               }
-                ArrayList<Integer> timeSlot=new ArrayList <>();
-                for(int i=0;i<timeSlot.size();i++)
-                {
-                    timeSlot.add(i);
-                }
-                Station.getTrainsList().get(found).setTimeSlot(timeSlot);
-                Station.setTrainsList(Station.getTrainsList());
-                    System.out.println("Train with id " + TrainId + "'s Timeslot got updated succesfully");
-                } else {
-                   System.out.println("Train with id " + TrainId + " Isn't found in the Station");
-               }
+        Train t = Station.getTrainsList().get(found);
+        if (t.getTakenSeats().containsKey(oldTimeSlot))
+        {
+            for (int i = 0 ; i <= t.getSEATNUMLIMIT(); i++) {
+                 if(t.getTakenSeats().get(oldTimeSlot).get(i)==true)
+                 {
+                     return -3; //train contains oldTimeSlot, but at least one passenger has already booked a ticket at that time, so you can't remove it
+                 }
+            }
+            Station.getTrainsList().get(found).getTakenSeats().remove(oldTimeSlot);
+            ArrayList<Boolean> ts = new ArrayList<>(t.getSEATNUMLIMIT());
+            for (int i = 0 ; i < t.getSEATNUMLIMIT() ; i++)
+                ts.add(false);
+            Station.getTrainsList().get(found).getTakenSeats().put(newTimeSlot, ts);
+            Station.setTrainsList(Station.getTrainsList());
+            return 1; //oldTimeSlot have been removed, newTimeSlot have been added as a key in the hashmap along with its boolean arraylist of empty (false) taken Seats
+        } 
+        else 
+            return -2; //train doesn't contain oldTimeSlot
     }
+        return -1; //trainID is not found 
+ }
     /* 
     Function to generate report with total passengers who booked tickets on trains going through a specific route
     Also along the total passengers We print detalied report with every train and detalid stats about High,Mid, and Low class passengers

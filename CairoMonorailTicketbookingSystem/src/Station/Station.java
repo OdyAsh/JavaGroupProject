@@ -163,6 +163,7 @@ public class Station {
                 passengersList = (ArrayList<Passenger>)ois.readObject();
                 ois.close();
                 fis.close();
+                Person.setIdCounter(passengersList.get(passengersList.size()-1).getId());
             } catch(Exception e) {
                 System.out.println("1st time execution to input data, so no file is created yet till setPassengersList() is called...\n");
             }
@@ -188,6 +189,7 @@ public class Station {
                 trainsList = (ArrayList<Train>)ois.readObject();
                 ois.close();
                 fis.close();
+                Train.setIdCounter(trainsList.get(trainsList.size()-1).getId());
             } catch(Exception e) {
                 System.out.println("1st time execution to input data, so no file is created yet till setTrainList() is called...\n");
             }
@@ -214,6 +216,7 @@ public class Station {
                 adminsList = (ArrayList<Admin>)output.readObject();
                 output.close();
                 file.close();
+                Person.setIdCounter(adminsList.get(adminsList.size()-1).getId());
             } catch(Exception e) {
                 System.out.println("there is no file created yet setAdminsList() should be called first...\n");
             }

@@ -2,10 +2,14 @@
  *  Group 9
  *  Author: 
  */
-package GUIGeneral;
+package GUIAdmin;
 
+import Person.Admin;
+import Station.Station;
 import Transportation.Train;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,6 +21,9 @@ public class timeSlot_frame extends javax.swing.JFrame {
     /**
      * Creates new form tineSlot_frame
      */
+    public int trainID;
+    public Admin pa;
+    public Train t;
     public String oldTimeSlot;
     public String newTimeSlot;
     ArrayList<Boolean> Boolean;
@@ -24,9 +31,15 @@ public class timeSlot_frame extends javax.swing.JFrame {
     /**
      *
      */
-    public Train pa;
+   
     public timeSlot_frame() {
         this.Boolean = new ArrayList<>();
+        initComponents();
+    }
+    public timeSlot_frame(Admin pa, int trainId) {
+        this.Boolean = new ArrayList<>();
+        this.pa = pa;
+        this.trainID = trainId;
         initComponents();
     }
 
@@ -34,9 +47,9 @@ public class timeSlot_frame extends javax.swing.JFrame {
      *
      * @param pa
      */
-    public timeSlot_frame(Train pa) {
+    public timeSlot_frame(Train t) {
         this.Boolean = new ArrayList<>();
-         this.pa=pa;
+         this.t=t;
         initComponents();
     }
       public timeSlot_frame(String oldTimeSlot,String newTimeSlot,ArrayList<Boolean> timeSlot) {
@@ -140,32 +153,37 @@ public class timeSlot_frame extends javax.swing.JFrame {
         // TODO add your handling code here:
         oldTimeSlot=oldTime.getText();
         newTimeSlot=newTime.getText();
-         if(oldTime.getText().equals("")||newTime.getText().equals(""))
+         if(oldTimeSlot.equals("")||newTimeSlot.equals(""))
          {
                JOptionPane.showMessageDialog(this,"You can't leave this field empty!");
          }
          else
          {
-             int oldtime=Integer.parseInt(oldTime.getText());
-             int newtime=Integer.parseInt(newTime.getText());
-               for (int i = 0 ; i <= 9; i++) {
-             if(pa.getTakenSeats().get(oldtime).get(i)==true)
-             {
-                 JOptionPane.showMessageDialog(this,"the seat is already taken");
-                 break;
-             }
-             else
-             {
-                 //final int snl=pa.getSEATNUMLIMIT();
-                 
-                pa.getTakenSeats().remove( oldtime);
-                pa.getTakenSeats().put(newtime, Boolean );
-            
-                
-                  JOptionPane.showMessageDialog(this,"the time slot has changed successfully");
-             }
-               }
-         }
+             int oldtime=Integer.parseInt(oldTimeSlot);
+             int newtime=Integer.parseInt(newTimeSlot);
+            try {
+                int result = pa.changeTrainTimeSlot(trainID, oldtime, newtime);
+                 switch (result) {
+                     case 1:
+                         JOptionPane.showMessageDialog(this,"The time slot has been changed successfully");
+                         break;
+                     case -1:
+                         JOptionPane.showMessageDialog(this,"No train was found with this id..."); //should never execute, as it was already checked in the Modify_frame form
+                         break;
+                     case -2:
+                         JOptionPane.showMessageDialog(this, "The train with ID: " + trainID + " doesn't have this time slot: " + oldtime);
+                         break;
+                     case -3:
+                         JOptionPane.showMessageDialog(this, "At least one passenger has already booked a ticket at this time slot, so you can't remove it yet...");
+                         break;
+                     default:
+                         JOptionPane.showMessageDialog(this, "Unknown error, apologies for the inconvenience...");
+                         break;
+                 }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,"Can't access storage file...");
+            }
+         }        
     }//GEN-LAST:event_EnterActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed

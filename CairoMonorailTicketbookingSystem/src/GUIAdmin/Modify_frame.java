@@ -2,13 +2,15 @@
  *  Group 9
  *  Author: Abdo_203795
  */
-package GUIGeneral;
+package GUIAdmin;
 
 /**
  *
  * @author Abdo_203795
  */
 import Person.Admin;
+import Station.Station;
+import Transportation.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,11 +28,6 @@ public class Modify_frame extends javax.swing.JFrame {
     public Modify_frame(Admin pa) 
     {
         this.pa=pa;
-        initComponents();
-    }
-     public Modify_frame(int id) 
-    {
-        this.id=id;
         initComponents();
     }
 
@@ -51,6 +48,8 @@ public class Modify_frame extends javax.swing.JFrame {
         Enter_2 = new javax.swing.JButton();
         Back_button = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        trainId = new javax.swing.JTextField();
 
         jButton1.setText("Modify train time slot");
 
@@ -105,6 +104,8 @@ public class Modify_frame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Which modify you want ?");
 
+        jLabel2.setText("Train ID to be modified: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,11 +122,16 @@ public class Modify_frame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(Back_button, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
+                        .addGap(130, 130, 130)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(184, 184, 184)
                         .addComponent(Enter_2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(jLabel1)))
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel2)
+                        .addGap(39, 39, 39)
+                        .addComponent(trainId, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -137,9 +143,13 @@ public class Modify_frame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Modify_train_time)
                     .addComponent(Modify_train_route))
-                .addGap(40, 40, 40)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(trainId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(Enter_2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
                 .addComponent(Back_button)
                 .addContainerGap())
         );
@@ -158,26 +168,47 @@ public class Modify_frame extends javax.swing.JFrame {
     }//GEN-LAST:event_Modify_train_timeActionPerformed
 
     private void Enter_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Enter_2ActionPerformed
-        // TODO add your handling code here:
-        if(Modify_train_route.isSelected())
+        
+        if (trainId.getText().equals(""))
         {
-           modify_trainRoute F=new modify_trainRoute();
-            F.setVisible(true);
-           
+            JOptionPane.showMessageDialog(this, "You must specify which train you want to modify!");
         }
         else
         {
-            timeSlot_frame F=new timeSlot_frame();
-            F.setVisible(true);
-           
-             
+            boolean found = false;
+            id = Integer.parseInt(trainId.getText());
+            for (Train t: Station.getTrainsList())
+            {
+                if (t.getId() == id)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+            {
+                if(Modify_train_route.isSelected())
+                {
+                   modify_trainRoute F=new modify_trainRoute(pa, id);
+                    F.setVisible(true);
+
+                }
+                else if (Modify_train_time.isSelected())
+                {
+                    timeSlot_frame F=new timeSlot_frame(pa, id);
+                    F.setVisible(true); 
+                }
+            }
+            else
+                JOptionPane.showMessageDialog(this, "No train found with this ID...");
         }
+        
     }//GEN-LAST:event_Enter_2ActionPerformed
 
     private void Back_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Back_buttonActionPerformed
         // TODO add your handling code here:
         this.toBack();
-        Admin_frame1 newframe=new  Admin_frame1();
+        Admin_frame1 newframe=new  Admin_frame1(pa);
         newframe.setVisible(true);
         newframe.toFront();
         
@@ -221,6 +252,8 @@ public class Modify_frame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupRadioButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField trainId;
     // End of variables declaration//GEN-END:variables
 }

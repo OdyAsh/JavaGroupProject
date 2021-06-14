@@ -4,7 +4,7 @@
  */
 
 
-package GUIGeneral;
+package GUIAdmin;
 
 /**
  *

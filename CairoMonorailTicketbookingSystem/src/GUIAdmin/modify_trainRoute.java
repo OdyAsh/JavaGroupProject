@@ -2,7 +2,7 @@
  *  Group 9
  *  Author: 
  */
-package GUIGeneral;
+package GUIAdmin;
 
 import Person.Admin;
 import java.util.logging.Level;
@@ -20,22 +20,24 @@ public class modify_trainRoute extends javax.swing.JFrame {
      */
     String source;
     String destination;
+    int distance;
+    int price;
     public Admin pa;
     public int id;
     public modify_trainRoute() {
         initComponents();
     }
-     public modify_trainRoute(Admin pa) {
+     public modify_trainRoute(Admin pa, int id) {
          this.pa=pa;
+         this.id = id;
+         initComponents();
+    }
+    public modify_trainRoute( String source, String destination) {
+        this.source=source;
+        this.destination = destination;
         initComponents();
     }
-       public modify_trainRoute( String source, String destination) {
-           this.source=source;
-           this.destination = destination;
-        initComponents();
-    }
-        public modify_trainRoute(int id) 
-    {
+    public modify_trainRoute(int id) {
         this.id=id;
         initComponents();
     }
@@ -56,6 +58,10 @@ public class modify_trainRoute extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         Enter = new javax.swing.JButton();
         Back = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        newDistance = new javax.swing.JTextField();
+        newPrice = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,54 +86,73 @@ public class modify_trainRoute extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Enter distance between them");
+
+        jLabel5.setText("Enter new route price");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 61, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(45, 45, 45))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Back, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81)
+                .addComponent(Enter, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(96, 96, 96)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2)
-                                .addGap(37, 37, 37)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Enter, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(newSource, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                                .addComponent(newDestination))))
+                                .addGap(89, 89, 89)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(97, 97, 97)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jLabel5)))
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(newSource, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(newDestination, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                            .addComponent(newDistance)
+                            .addComponent(newPrice)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(Back, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel3)))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel3)
-                .addGap(54, 54, 54)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newSource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(33, 33, 33)
+                    .addComponent(jLabel1)
+                    .addComponent(newSource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newDestination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(36, 36, 36)
-                .addComponent(Enter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(Back)
-                .addContainerGap())
+                    .addComponent(jLabel2)
+                    .addComponent(newDestination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(newDistance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(newPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Enter)
+                    .addComponent(Back))
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -145,19 +170,26 @@ public class modify_trainRoute extends javax.swing.JFrame {
         // TODO add your handling code here:
        source=newSource.getText();
        destination=newDestination.getText();
-         if(newSource.getText().equals("")||newDestination.getText().equals(""))
+       String distanceS = newDistance.getText();
+       String priceS = newPrice.getText();
+         if(source.equals("")||destination.equals("") || distanceS.equals("")|| priceS.equals(""))
          {
-               JOptionPane.showMessageDialog(this,"You can't leave this field empty!");
+               JOptionPane.showMessageDialog(this,"one of the fields are empty!");
          }
          else
          {
-             pa=new Admin("ahmed495@gmail.com","79933%345");
            try {
-             pa.changeTrainRoute(id);
+               distance = Integer.parseInt(distanceS);
+               price = Integer.parseInt(priceS);
+               if (pa.changeTrainRoute(id, source, destination, distance, price))
+                   JOptionPane.showMessageDialog(this,"The route of the train with ID: " + id + "has been changed successfully!");
+               else
+                   JOptionPane.showMessageDialog(this,"No train was found with this id...");
+             
            } catch (Exception ex) {
                Logger.getLogger(modify_trainRoute.class.getName()).log(Level.SEVERE, null, ex);
            }
-           JOptionPane.showMessageDialog(this, "the train route has modified successfully");
+           
          }
     }//GEN-LAST:event_EnterActionPerformed
 
@@ -202,7 +234,11 @@ public class modify_trainRoute extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField newDestination;
+    private javax.swing.JTextField newDistance;
+    private javax.swing.JTextField newPrice;
     private javax.swing.JTextField newSource;
     // End of variables declaration//GEN-END:variables
 }
